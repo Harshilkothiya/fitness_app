@@ -21,19 +21,16 @@ class FirstPage extends StatelessWidget {
               ),
             ),
           ),
-          RaisedButton(
-            splashColor: Theme.of(context).accentColor,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              splashFactory: InkRipple.splashFactory, backgroundColor: Theme.of(context).primaryColor,
+            ),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => HomeScreen()));
             },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            color: Theme.of(context).primaryColor,
             child: Text(
               'Click here to proceed',
               style: TextStyle(

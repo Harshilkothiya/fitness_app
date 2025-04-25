@@ -1,40 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_fitness_app/widgets/module_widget.dart';
+import '../widgets/module_widget_yoga.dart';
+import '../widgets/sub_module_widget_yoga.dart';
+import '../data/yoga_data.dart';
+import '../models/yoga.dart';
 
 //TODO
 class AshtangaScreen extends StatelessWidget {
-
-  Widget? _widget;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-            child: Text(
-          'Ashtanga Yoga',
-          style: TextStyle(
+          child: Text(
+            'Ashtanga Yoga',
+            style: TextStyle(
               fontSize: 20,
               fontFamily: 'QuickSand',
-              fontWeight: FontWeight.bold),
-        )),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
       body: Container(
         child: ListView(
           padding: const EdgeInsets.all(10),
           children: <Widget>[
-            ModuleWidget(_widget!, '', ''),
-            SizedBox(
-              height: 8,
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'a1',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'a1'),
+              ),
+              'Sun Salutation A',
+              'assets/images/yoga/ashtanga/sun_a.jpg',
+              'Surya Namaskar A',
             ),
-            ModuleWidget(_widget!, '', ''),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'a2',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'a2'),
+              ),
+              'Sun Salutation B',
+              'assets/images/yoga/ashtanga/sun_b.jpg',
+              'Surya Namaskar B',
             ),
-            ModuleWidget(_widget!, '', ''),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'a3',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'a3'),
+              ),
+              'Standing Sequence',
+              'assets/images/yoga/ashtanga/standing.jpg',
+              'Uttitha Sthiti',
             ),
+            SizedBox(height: 8),
           ],
         ),
       ),

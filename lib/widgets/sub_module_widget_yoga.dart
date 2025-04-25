@@ -1,295 +1,344 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_fitness_app/models/yoga_model.dart';
-import 'package:pbl_fitness_app/data/yoga_data.dart';
+import '../models/yoga.dart';
 
 class SubModuleWidgetYoga extends StatefulWidget {
-  final String ID;
+  final String id;
+  final Yoga pose;
 
-  SubModuleWidgetYoga(this.ID);
+  SubModuleWidgetYoga(this.id, {required this.pose});
 
   @override
   _SubModuleWidgetYogaState createState() => _SubModuleWidgetYogaState();
 }
 
-class _SubModuleWidgetYogaState extends State<SubModuleWidgetYoga> {
+class _SubModuleWidgetYogaState extends State<SubModuleWidgetYoga>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Interval(0.0, 0.5, curve: Curves.easeOut),
+    ));
+
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(0.0, 0.2),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Interval(0.2, 1.0, curve: Curves.easeOut),
+    ));
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Yoga?>? _yogaList = YOGA_DATA.where((element) {
-      return element.id!.contains(widget.ID);
-    }).toList();
-
-    print("printing LIST...");
-    for (int i = 0; i < _yogaList.length; i++) {
-      print(_yogaList.elementAt(i)?.id);
-      print(_yogaList.elementAt(i)?.title);
-      print(_yogaList.elementAt(i)?.category);
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-            child: Text(
-          (_yogaList.elementAt(0)?.title).toString(),
-          style: TextStyle(
-              fontSize: 15,
-              fontFamily: 'QuickSand',
-              fontWeight: FontWeight.bold),
-        )),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 1.3,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).primaryColor,
-                width: 2,
-              ),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // ASSET IMAGE
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(13),
-                    topRight: Radius.circular(13),
-                    bottomRight: Radius.circular(13),
-                    bottomLeft: Radius.circular(13),
-                  ),
-                  // clipBehavior: Clip.hardEdge,
-                  child: Center(
-                    child: Image.asset(
-                      (_yogaList.elementAt(0)?.imageUrl).toString(),
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width,
-                      // height: 180,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.pose.title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(4),
+                  Text(
+                    widget.pose.sanskritName,
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
+              ),
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Hero(
+                    tag: 'yoga_${widget.id}',
+                    child: Image.asset(
+                      widget.pose.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey[300],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.self_improvement,
+                                  size: 40, color: Colors.grey[600]),
+                              SizedBox(height: 8),
+                              Text(
+                                'Failed to load image',
+                                style: TextStyle(color: Colors.grey[600]),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.7),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: SlideTransition(
+                position: _slideAnimation,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Divider(
-                        thickness: 1,
-                        color: Theme.of(context).accentColor,
+                      _buildInfoCard(
+                        'Difficulty',
+                        widget.pose.difficulty,
+                        Icons.fitness_center,
+                        Colors.orange,
                       ),
-
-                      //TITLE
-                      Text(
-                        'Title : ',
-                        style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                          fontFamily: 'Quicksand',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
+                      SizedBox(height: 16),
+                      _buildInfoCard(
+                        'Duration',
+                        widget.pose.duration,
+                        Icons.timer,
+                        Colors.blue,
+                      ),
+                      SizedBox(height: 24),
+                      _buildSection('Instructions', widget.pose.description),
+                      SizedBox(height: 24),
+                      _buildSection('Benefits', widget.pose.benefits),
+                      SizedBox(height: 24),
+                      _buildPrecautionsSection(),
+                      SizedBox(height: 32),
+                      Center(
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text('Starting ${widget.pose.title}...'),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          },
+                          icon: Icon(Icons.self_improvement),
+                          label: Text('Start Practice'),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 32, vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
                         ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
                       ),
-
-                      Text(
-                        (_yogaList.elementAt(0)?.title).toString(),
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontFamily: 'Quicksand',
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
-
-                      Divider(
-                        thickness: 1,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-
-                      // DIFFICULTY
-                      Text(
-                        'Difficulty : ',
-                        style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                          fontFamily: 'Quicksand',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
-                        ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
-
-                      Text(
-                        (_yogaList.elementAt(0)?.difficulty).toString(),
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontFamily: 'Quicksand',
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
-
-                      Divider(
-                        thickness: 1,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-
-                      //CATEGORY
-                      Text(
-                        'Category : ',
-                        style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                          fontFamily: 'Quicksand',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
-                        ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
-
-                      Text(
-                        (_yogaList.elementAt(0)?.category).toString(),
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontFamily: 'Quicksand',
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
-
-                      Divider(
-                        thickness: 1,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
+                      SizedBox(height: 16),
                     ],
                   ),
                 ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-                // DESCRIPTION
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    'Description : ',
+  Widget _buildInfoCard(
+      String title, String content, IconData icon, Color color) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, color: color),
+            ),
+            SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
                     style: TextStyle(
-                      color: Theme.of(context).accentColor,
-                      fontFamily: 'Quicksand',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      decoration: TextDecoration.underline,
-                    ),
-                    softWrap: true,
-                    overflow: TextOverflow.fade,
-                  ),
-                ),
-
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: _yogaList[0]?.description?.length,
-                      itemBuilder: (context, index) {
-                        print(_yogaList[0]?.description![index]);
-                        print('');
-                        return Text(
-                          _yogaList[0]?.description?.length != 0
-                              ? (index + 1).toString() +
-                                  '. ' +
-                                  (_yogaList[0]?.description![index]).toString()
-                              : 'description is null',
-                          style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontFamily: 'Quicksand',
-                            fontSize: 15,
-                            // decoration: TextDecoration.underline,
-                          ),
-                        );
-                        // return Text(_gymList[0].description[index]);
-                      },
+                      fontSize: 14,
+                      color: Colors.grey[600],
                     ),
                   ),
-                ),
-
-                Divider(
-                  thickness: 1,
-                  color: Theme.of(context).accentColor,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-
-                //BENEFITS
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    'Benefits : ',
+                  SizedBox(height: 4),
+                  Text(
+                    content,
                     style: TextStyle(
-                      color: Theme.of(context).accentColor,
-                      fontFamily: 'Quicksand',
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      decoration: TextDecoration.underline,
-                    ),
-                    softWrap: true,
-                    overflow: TextOverflow.fade,
-                  ),
-                ),
-
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: _yogaList[0]?.benefits?.length,
-                      itemBuilder: (context, index) {
-                        print(_yogaList[0]?.benefits![index]);
-                        print('');
-                        return Text(
-                          _yogaList[0]?.benefits?.length != 0
-                              ? (index + 1).toString() +
-                                  '. ' +
-                                 ( _yogaList[0]?.benefits![index]).toString()
-                              : 'description is null',
-                          style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontFamily: 'Quicksand',
-                            fontSize: 15,
-                            // decoration: TextDecoration.underline,
-                          ),
-                        );
-                        // return Text(_gymList[0].description[index]);
-                      },
                     ),
                   ),
-                ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-                Divider(
-                  thickness: 1,
-                  color: Theme.of(context).accentColor,
-                ),
-                SizedBox(
-                  height: 4,
+  Widget _buildSection(String title, List<String> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 12),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 12.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 6),
+                    height: 8,
+                    width: 8,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      items[index],
+                      style: TextStyle(
+                        fontSize: 16,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPrecautionsSection() {
+    return Card(
+      elevation: 2,
+      color: Colors.red[50],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.warning_amber_rounded,
+                    color: Colors.red[400], size: 24),
+                SizedBox(width: 8),
+                Text(
+                  'Precautions',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red[900],
+                  ),
                 ),
               ],
             ),
-          ),
+            SizedBox(height: 12),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: widget.pose.precautions.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('• ',
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.red[400])),
+                      Expanded(
+                        child: Text(
+                          widget.pose.precautions[index],
+                          style: TextStyle(
+                            fontSize: 14,
+                            height: 1.5,
+                            color: Colors.red[900],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

@@ -1,277 +1,466 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_fitness_app/models/gym_model.dart';
-import '../data/gym_data.dart';
+import '../models/gym.dart';
 
 class SubModuleWidgetGym extends StatefulWidget {
-  final String ID;
+  final String id;
+  final Gym exercise;
 
-  SubModuleWidgetGym(this.ID);
+  SubModuleWidgetGym(this.id, {required this.exercise});
 
   @override
   _SubModuleWidgetGymState createState() => _SubModuleWidgetGymState();
 }
 
-class _SubModuleWidgetGymState extends State<SubModuleWidgetGym> {
-  @override
-  Widget build(BuildContext context) {
-    List<Gym?>? _gymList = GYM_DATA.where((element) {
-      return element.id!.contains(widget.ID);
-    }).toList();
+class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+  bool _isTimerActive = false;
+  int _remainingTime = 0;
+  ScrollController _scrollController = ScrollController();
 
-    print("printing LIST...");
-    for (int i = 0; i < _gymList.length; i++) {
-      print(_gymList.elementAt(i)?.id);
-      print(_gymList.elementAt(i)?.title);
-      print(_gymList.elementAt(i)?.equipment);
-      print(_gymList.elementAt(i)?.muscle);
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Interval(0.0, 0.5, curve: Curves.easeOut),
+    ));
+
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(0.0, 0.2),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Interval(0.2, 1.0, curve: Curves.easeOut),
+    ));
+
+    if (widget.exercise.time != null) {
+      _remainingTime = widget.exercise.time!;
     }
 
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    if (!_isTimerActive && widget.exercise.time != null) {
+      setState(() {
+        _isTimerActive = true;
+        _remainingTime = widget.exercise.time!;
+      });
+
+      Future.doWhile(() async {
+        await Future.delayed(Duration(seconds: 1));
+        if (!mounted) return false;
+
+        setState(() {
+          if (_remainingTime > 0) {
+            _remainingTime--;
+          } else {
+            _isTimerActive = false;
+          }
+        });
+
+        return _isTimerActive && _remainingTime > 0;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-            child: Text(
-          (_gymList.elementAt(0)?.title).toString(),
-          style: TextStyle(
-              color: Theme.of(context).accentColor,
-              fontSize: 15,
-              fontFamily: 'QuickSand',
-              fontWeight: FontWeight.bold),
-        )),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 1.3,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).primaryColor,
-                width: 2,
-              ),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // NETWORK IMAGE
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(13),
-                    topRight: Radius.circular(13),
-                    bottomRight: Radius.circular(13),
-                    bottomLeft: Radius.circular(13),
+      backgroundColor: Color(0xFF1C1B1E),
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          // Large Image Header with Back Button and Exercise Name
+          SliverAppBar(
+            expandedHeight: 300,
+            floating: false,
+            pinned: true,
+            backgroundColor: Colors.transparent,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.asset(
+                    widget.exercise.imageUrl,
+                    fit: BoxFit.cover,
                   ),
-                  // clipBehavior: Clip.hardEdge,
-                  child: Center(
-                    child: Image.network(
-                      (_gymList.elementAt(0)?.imageUrl).toString(),
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width,
-                      // height: 180,
+                  // Gradient overlay
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.7),
+                        ],
+                      ),
                     ),
                   ),
+                ],
+              ),
+              title: Text(
+                widget.exercise.title,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
+              centerTitle: true,
+            ),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
 
-                Padding(
-                  padding: EdgeInsets.all(4),
+          // Exercise Content
+          SliverToBoxAdapter(
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: SlideTransition(
+                position: _slideAnimation,
+                child: Container(
+                  padding: EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Divider(
-                        thickness: 1,
-                        color: Theme.of(context).accentColor,
+                      // Exercise Info Cards
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildInfoCard(
+                              'Difficulty',
+                              widget.exercise.difficulty,
+                              Icons.fitness_center,
+                              Colors.orange,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: _buildInfoCard(
+                              'Equipment',
+                              widget.exercise.equipment as String,
+                              Icons.sports_gymnastics,
+                              Colors.blue,
+                            ),
+                          ),
+                        ],
                       ),
 
-                      //TITLE
-                      Text(
-                        'Title : ',
-                        style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                          fontFamily: 'Quicksand',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
+                      // Timer or Reps Section
+                      if (widget.exercise.time != null ||
+                          widget.exercise.repetitions != null) ...[
+                        SizedBox(height: 16),
+                        Row(
+                          children: [
+                            if (widget.exercise.time != null)
+                              Expanded(
+                                child: _buildTimerCard(),
+                              ),
+                            if (widget.exercise.time != null &&
+                                widget.exercise.repetitions != null)
+                              SizedBox(width: 16),
+                            if (widget.exercise.repetitions != null)
+                              Expanded(
+                                child: _buildInfoCard(
+                                  'Reps',
+                                  '${widget.exercise.repetitions}',
+                                  Icons.repeat,
+                                  Colors.purple,
+                                ),
+                              ),
+                          ],
                         ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
+                      ],
 
+                      // Instructions Section
+                      SizedBox(height: 32),
                       Text(
-                        (_gymList.elementAt(0)?.title).toString(),
+                        'Instructions',
                         style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontFamily: 'Quicksand',
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
-
-                      Divider(
-                        thickness: 1,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-
-                      // DIFFICULTY
-                      Text(
-                        'Difficulty : ',
-                        style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                          fontFamily: 'Quicksand',
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
+                          color: Colors.white,
                         ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
                       ),
-
-                      Text(
-                        (_gymList.elementAt(0)?.difficulty).toString(),
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontFamily: 'Quicksand',
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
-
-                      Divider(
-                        thickness: 1,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-
-                      // MUSCLE
-                      Text(
-                        'Muscle : ',
-                        style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                          fontFamily: 'Quicksand',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
+                      SizedBox(height: 16),
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
-
-                      Text(
-                       ( _gymList.elementAt(0)?.muscle).toString(),
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontFamily: 'Quicksand',
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
-
-                      Divider(
-                        thickness: 1,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-
-                      // EQUIPMENT
-                      Text(
-                        'Equipments : ',
-                        style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                          fontFamily: 'Quicksand',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: widget.exercise.description.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 6),
+                                    padding: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Text(
+                                      '${index + 1}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 16),
+                                  Expanded(
+                                    child: Text(
+                                      widget.exercise.description[index],
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
                       ),
 
-                      Text(
-                        (_gymList.elementAt(0)?.equipment).toString(),
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontFamily: 'Quicksand',
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
-
-                      Divider(
-                        thickness: 1,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-
-                      // DESCRIPTION
-                      Text(
-                        'Description : ',
-                        style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                          fontFamily: 'Quicksand',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
+                      // Tips Section
+                      if (widget.exercise.tips != null) ...[
+                        SizedBox(height: 32),
+                        Text(
+                          'Tips',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
+                        SizedBox(height: 16),
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: widget.exercise.tips!.map((tip) {
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: 12),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.tips_and_updates,
+                                      color: Colors.amber,
+                                      size: 24,
+                                    ),
+                                    SizedBox(width: 16),
+                                    Expanded(
+                                      child: Text(
+                                        tip,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+
+                      // Variations Section
+                      if (widget.exercise.variations != null) ...[
+                        SizedBox(height: 32),
+                        Text(
+                          'Variations',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children:
+                                widget.exercise.variations!.map((variation) {
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: 12),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.change_circle,
+                                      color: Colors.green,
+                                      size: 24,
+                                    ),
+                                    SizedBox(width: 16),
+                                    Expanded(
+                                      child: Text(
+                                        variation,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                      SizedBox(height: 32),
                     ],
                   ),
                 ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: _gymList[0]?.description?.length,
-                      itemBuilder: (context, index) {
-                        print(_gymList[0]?.description![index]);
-                        print('');
-                        return Text(
-                          _gymList[0]?.description?.length != 0
-                              // ? Text((index+1).toString(),style: TextStyle(fontWeight: FontWeight.bold),)
-                              //   .toString()
-                              ? (index + 1).toString() +
-                                  '. ' +
-                                  (_gymList[0]?.description![index]).toString()
-                              : 'description is null',
-                          style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontFamily: 'Quicksand',
-                            fontSize: 15,
-                            // decoration: TextDecoration.underline,
-                          ),
-                        );
-                        // return Text(_gymList[0].description[index]);
-                      },
-                    ),
+  Widget _buildInfoCard(
+      String title, String content, IconData icon, Color color) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: color),
+          ),
+          SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
                   ),
                 ),
-
-                Divider(
-                  thickness: 1,
-                  color: Theme.of(context).accentColor,
-                ),
-                SizedBox(
-                  height: 4,
+                SizedBox(height: 4),
+                Text(
+                  content,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTimerCard() {
+    return GestureDetector(
+      onTap: _startTimer,
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                _isTimerActive ? Icons.timer : Icons.timer_off,
+                color: Colors.red,
+              ),
+            ),
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Timer',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white70,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    '${_remainingTime}s',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

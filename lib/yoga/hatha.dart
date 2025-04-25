@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_fitness_app/widgets/module_widget.dart';
-import 'package:pbl_fitness_app/widgets/sub_module_widget_yoga.dart';
+import '../widgets/module_widget_yoga.dart';
+import '../widgets/sub_module_widget_yoga.dart';
+import '../data/yoga_data.dart';
+import '../models/yoga.dart';
 
 class HathaScreen extends StatelessWidget {
   @override
@@ -8,69 +10,110 @@ class HathaScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-            child: Text(
-          'Hatha Yoga',
-          style: TextStyle(
+          child: Text(
+            'Hatha Yoga',
+            style: TextStyle(
               fontSize: 20,
               fontFamily: 'QuickSand',
-              fontWeight: FontWeight.bold),
-        )),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
       body: Container(
         child: ListView(
           padding: const EdgeInsets.all(10),
           children: <Widget>[
-            ModuleWidget(SubModuleWidgetYoga('h1'), 'Tadasana (Mountain Pose)',
-                'assets/images/yoga/hatha/tadasana.png'),
-            SizedBox(
-              height: 8,
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'h1',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'h1'),
+              ),
+              'Tadasana (Mountain Pose)',
+              'assets/images/yoga/hatha/tadasana.png',
+              'Tadasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('h2'), 'Vrikshasana (Tree Pose)',
-                'assets/images/yoga/hatha/vri.png'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'h2',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'h2'),
+              ),
+              'Vrikshasana (Tree Pose)',
+              'assets/images/yoga/hatha/vri.png',
+              'Vrikshasana',
             ),
-            ModuleWidget(
-                SubModuleWidgetYoga('h3'),
-                'Adho Mukh Swanasana (Downward Facing Dog Pose)',
-                'assets/images/yoga/hatha/adho.png'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'h3',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'h3'),
+              ),
+              'Adho Mukh Swanasana (Downward Facing Dog Pose)',
+              'assets/images/yoga/hatha/adho.png',
+              'Adho Mukh Swanasana',
             ),
-            ModuleWidget(
-                SubModuleWidgetYoga('h4'),
-                'Setu Bandhasana (Bridge Pose)',
-                'assets/images/yoga/hatha/setu.png'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'h4',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'h4'),
+              ),
+              'Setu Bandhasana (Bridge Pose)',
+              'assets/images/yoga/hatha/setu.png',
+              'Setu Bandhasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('h5'), 'Halasana (Plough Pose)',
-                'assets/images/yoga/hatha/halasana.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'h5',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'h5'),
+              ),
+              'Halasana (Plough Pose)',
+              'assets/images/yoga/hatha/halasana.jpg',
+              'Halasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('h6'), 'Sirsana (Head Stand)',
-                'assets/images/yoga/hatha/sir.png'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'h6',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'h6'),
+              ),
+              'Sirsana (Head Stand)',
+              'assets/images/yoga/hatha/sir.png',
+              'Sirsana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('h7'), 'Salabhasana (Locust Pose)',
-                'assets/images/yoga/hatha/salabh.png'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'h7',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'h7'),
+              ),
+              'Salabhasana (Locust Pose)',
+              'assets/images/yoga/hatha/salabh.png',
+              'Salabhasana',
             ),
-            ModuleWidget(
-                SubModuleWidgetYoga('h8'),
-                'Sarvangasana (Shoulder Stand)',
-                'assets/images/yoga/hatha/sarvang.png'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'h8',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'h8'),
+              ),
+              'Sarvangasana (Shoulder Stand)',
+              'assets/images/yoga/hatha/sarvang.png',
+              'Sarvangasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('h9'), 'Dhanurasana (Bow Pose)',
-                'assets/images/yoga/hatha/dhanu.png'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'h9',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'h9'),
+              ),
+              'Dhanurasana (Bow Pose)',
+              'assets/images/yoga/hatha/dhanu.png',
+              'Dhanurasana',
             ),
+            SizedBox(height: 8),
           ],
         ),
       ),

@@ -84,7 +84,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).accentColor),
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
                   Navigator.push(
@@ -104,7 +104,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).accentColor),
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
                   Navigator.push(
@@ -122,7 +122,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).accentColor),
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
                   Navigator.push(
@@ -155,7 +155,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                     decoration: TextDecoration.underline,
                   ),
                 ),
@@ -189,7 +189,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 title: Text(
                   'Profile',
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).accentColor),
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
                   Navigator.push(
@@ -205,7 +206,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 title: Text(
                   'Settings',
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).accentColor),
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
                   Navigator.push(
@@ -221,7 +223,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 title: Text(
                   'Notifications',
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).accentColor),
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
                   Navigator.push(
@@ -238,7 +241,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 title: Text(
                   'Log Out',
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).accentColor),
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {},
               ),
@@ -264,7 +268,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 title: Text(
                   'About Us',
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).accentColor),
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
                   Navigator.push(
@@ -282,7 +287,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 title: Text(
                   'Share',
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).accentColor),
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
                   Share.share(
@@ -295,7 +301,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 title: Text(
                   'Feedback',
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).accentColor),
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
                   Navigator.push(
@@ -311,7 +318,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 title: Text(
                   'Rate On PlayStore',
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).accentColor),
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
                   Navigator.push(
@@ -331,10 +339,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 title: Text(
                   'Night Mode',
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).accentColor),
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
                 leading: Switch(
-                  activeColor: Theme.of(context).accentColor,
+                  activeColor: Theme.of(context).colorScheme.secondary,
                   value: darkThemeEnabled,
                   onChanged: (changedTheme) {
                     setState(() {

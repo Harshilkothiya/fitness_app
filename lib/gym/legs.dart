@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pbl_fitness_app/widgets/module_widget.dart';
 import 'package:pbl_fitness_app/widgets/sub_module_widget_gym.dart';
+import 'package:pbl_fitness_app/data/gym_data.dart';
 
 class LegsScreen extends StatelessWidget {
   @override
@@ -20,56 +21,96 @@ class LegsScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(10),
           children: <Widget>[
-            ModuleWidget(SubModuleWidgetGym('l1'), 'Squat (High And Low Bar)',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'l1',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'l1'),
+                ),
+                'Squat (High And Low Bar)',
                 'assets/images/gym/legs/high_low.jpg'),
-            SizedBox(
-              height: 8,
-            ),
-            ModuleWidget(SubModuleWidgetGym('l2'), 'Snatch And Power Clean',
+            SizedBox(height: 8),
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'l2',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'l2'),
+                ),
+                'Snatch And Power Clean',
                 'assets/images/gym/legs/snatch.jpg'),
-            SizedBox(
-              height: 8,
-            ),
-            ModuleWidget(SubModuleWidgetGym('l3'), 'Bulgarian Split Squat',
+            SizedBox(height: 8),
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'l3',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'l3'),
+                ),
+                'Bulgarian Split Squat',
                 'assets/images/gym/legs/split.jpg'),
-            SizedBox(
-              height: 8,
-            ),
-            ModuleWidget(SubModuleWidgetGym('l4'), 'Dumbbell Lunge',
+            SizedBox(height: 8),
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'l4',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'l4'),
+                ),
+                'Dumbbell Lunge',
                 'assets/images/gym/legs/lunge.jpg'),
-            SizedBox(
-              height: 8,
-            ),
-            ModuleWidget(SubModuleWidgetGym('l5'), 'Romanian Deadlift',
+            SizedBox(height: 8),
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'l5',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'l5'),
+                ),
+                'Romanian Deadlift',
                 'assets/images/gym/legs/romanian.jpg'),
-            SizedBox(
-              height: 8,
-            ),
-            ModuleWidget(SubModuleWidgetGym('l6'), 'Leg Press',
+            SizedBox(height: 8),
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'l6',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'l6'),
+                ),
+                'Leg Press',
                 'assets/images/gym/legs/leg_press.jpg'),
-            SizedBox(
-              height: 8,
-            ),
-            ModuleWidget(SubModuleWidgetGym('l7'), 'Front Squat',
+            SizedBox(height: 8),
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'l7',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'l7'),
+                ),
+                'Front Squat',
                 'assets/images/gym/legs/front_squat.jpg'),
-            SizedBox(
-              height: 8,
-            ),
-            ModuleWidget(SubModuleWidgetGym('l8'), 'Legs Deadlift',
+            SizedBox(height: 8),
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'l8',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'l8'),
+                ),
+                'Legs Deadlift',
                 'assets/images/gym/legs/deadlift.jpg'),
-            SizedBox(
-              height: 8,
-            ),
-            ModuleWidget(SubModuleWidgetGym('l9'), 'Hack Squat',
+            SizedBox(height: 8),
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'l9',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'l9'),
+                ),
+                'Hack Squat',
                 'assets/images/gym/legs/hack.jpg'),
-            SizedBox(
-              height: 8,
-            ),
-            ModuleWidget(SubModuleWidgetGym('l10'), 'Machine Squat',
+            SizedBox(height: 8),
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'l10',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'l10'),
+                ),
+                'Machine Squat',
                 'assets/images/gym/legs/machine.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
           ],
         ),
       ),

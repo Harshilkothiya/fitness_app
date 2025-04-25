@@ -7,11 +7,10 @@ class BackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       child: Text('Back'),
       onPressed: () {
-        Navigator.pop(context,
-            MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+        Navigator.pop(context);
       },
     );
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_fitness_app/widgets/module_widget.dart';
-import 'package:pbl_fitness_app/widgets/sub_module_widget_gym.dart';
-import 'package:pbl_fitness_app/widgets/sub_module_widget_yoga.dart';
+import '../widgets/module_widget_yoga.dart';
+import '../widgets/sub_module_widget_yoga.dart';
+import '../data/yoga_data.dart';
+import '../models/yoga_model.dart';
 
 class VinyasaScreen extends StatelessWidget {
   @override
@@ -9,39 +10,50 @@ class VinyasaScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-            child: Text(
-          'Vinyasa Yoga',
-          style: TextStyle(
+          child: Text(
+            'Vinyasa Yoga',
+            style: TextStyle(
               fontSize: 20,
               fontFamily: 'QuickSand',
-              fontWeight: FontWeight.bold),
-        )),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
       body: Container(
         child: ListView(
           padding: const EdgeInsets.all(10),
           children: <Widget>[
-            ModuleWidget(
-                SubModuleWidgetYoga('v1'),
-                'Cat-Cow Stretch or Pose (Bidalasana)',
-                'assets/images/yoga/vinyasa/cat_cow.jpg'),
-            SizedBox(
-              height: 8,
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'v1',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'v1'),
+              ),
+              'Cat-Cow Stretch or Pose (Bidalasana)',
+              'assets/images/yoga/vinyasa/cat_cow.jpg',
+              'Bidalasana',
             ),
-            ModuleWidget(
-                SubModuleWidgetYoga('v2'),
-                'Side Plank Pose (Vasisthasana)',
-                'assets/images/yoga/vinyasa/side.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'v2',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'v2'),
+              ),
+              'Side Plank Pose (Vasisthasana)',
+              'assets/images/yoga/vinyasa/side.jpg',
+              'Vasisthasana',
             ),
-            ModuleWidget(
-                SubModuleWidgetYoga('v3'),
-                'Standing Forward Bend (Uttanasana)',
-                'assets/images/yoga/vinyasa/bend.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'v3',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'v3'),
+              ),
+              'Standing Forward Bend (Uttanasana)',
+              'assets/images/yoga/vinyasa/bend.jpg',
+              'Uttanasana',
             ),
+            SizedBox(height: 8),
           ],
         ),
       ),

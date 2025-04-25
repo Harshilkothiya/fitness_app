@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_fitness_app/widgets/module_widget.dart';
+import 'package:pbl_fitness_app/widgets/module_widget_yoga.dart';
 import 'package:pbl_fitness_app/widgets/sub_module_widget_yoga.dart';
+import 'package:pbl_fitness_app/data/yoga_data.dart';
+import 'package:pbl_fitness_app/models/yoga.dart';
 
 class IyengarScreen extends StatelessWidget {
   @override
@@ -20,73 +22,136 @@ class IyengarScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(10),
           children: <Widget>[
-            ModuleWidget(SubModuleWidgetYoga('i1'), 'Parsvakonasana',
-                'assets/images/yoga/iyengar/parsva.jpg'),
-            SizedBox(
-              height: 8,
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i1',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i1'),
+              ),
+              'Parsvakonasana',
+              'assets/images/yoga/iyengar/parsva.jpg',
+              'Parsvakonasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i2'), 'Ardha Chandrasana',
-                'assets/images/yoga/iyengar/ardha.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i2',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i2'),
+              ),
+              'Ardha Chandrasana',
+              'assets/images/yoga/iyengar/ardha.jpg',
+              'Ardha Chandrasana',
             ),
-            ModuleWidget(
-                SubModuleWidgetYoga('i3'),
-                'Parivrtta Ardha Chandrasana',
-                'assets/images/yoga/iyengar/pari_ardha.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i3',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i3'),
+              ),
+              'Parivrtta Ardha Chandrasana',
+              'assets/images/yoga/iyengar/pari_ardha.jpg',
+              'Parivrtta Ardha Chandrasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i4'), 'Parivrtta Trikonasana',
-                'assets/images/yoga/iyengar/pari_trikon.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i4',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i4'),
+              ),
+              'Parivrtta Trikonasana',
+              'assets/images/yoga/iyengar/pari_trikon.jpg',
+              'Parivrtta Trikonasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i5'), 'Parivrtta Parsvakonasana',
-                'assets/images/yoga/iyengar/pari_parsva.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i5',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i5'),
+              ),
+              'Parivrtta Parsvakonasana',
+              'assets/images/yoga/iyengar/pari_parsva.jpg',
+              'Parivrtta Parsvakonasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i6'), 'Virabhadrasana I',
-                'assets/images/yoga/iyengar/vi1.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i6',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i6'),
+              ),
+              'Virabhadrasana I',
+              'assets/images/yoga/iyengar/vi1.jpg',
+              'Virabhadrasana I',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i7'), 'Virabhadrasana II',
-                'assets/images/yoga/iyengar/vi2.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i7',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i7'),
+              ),
+              'Virabhadrasana II',
+              'assets/images/yoga/iyengar/vi2.jpg',
+              'Virabhadrasana II',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i8'), 'Virabhadrasana III',
-                'assets/images/yoga/iyengar/vi3.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i8',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i8'),
+              ),
+              'Virabhadrasana III',
+              'assets/images/yoga/iyengar/vi3.jpg',
+              'Virabhadrasana III',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i9'), 'Parsvottanasana',
-                'assets/images/yoga/iyengar/parsvottan.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i9',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i9'),
+              ),
+              'Parsvottanasana',
+              'assets/images/yoga/iyengar/parsvottan.jpg',
+              'Parsvottanasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i10'), 'Prasarita Padottanasana',
-                'assets/images/yoga/iyengar/prasarita.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i10',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i10'),
+              ),
+              'Prasarita Padottanasana',
+              'assets/images/yoga/iyengar/prasarita.jpg',
+              'Prasarita Padottanasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i11'), 'Salamba Sirsasana',
-                'assets/images/yoga/iyengar/salamba.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i11',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i11'),
+              ),
+              'Salamba Sirsasana',
+              'assets/images/yoga/iyengar/salamba.jpg',
+              'Salamba Sirsasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i12'), 'Setu Bandha Sarvangasana',
-                'assets/images/yoga/iyengar/setu.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i12',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i12'),
+              ),
+              'Setu Bandha Sarvangasana',
+              'assets/images/yoga/iyengar/setu.jpg',
+              'Setu Bandha Sarvangasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('i13'), 'Savasana',
-                'assets/images/yoga/iyengar/sava.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'i13',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'i13'),
+              ),
+              'Savasana',
+              'assets/images/yoga/iyengar/sava.jpg',
+              'Savasana',
             ),
+            SizedBox(height: 8),
           ],
         ),
       ),

@@ -22,8 +22,7 @@ class _ModuleWidgetState extends State<ModuleWidget> {
           decoration: BoxDecoration(
             // color: Colors.grey,
             border: Border.all(
-              //TODO
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(15),
@@ -59,7 +58,7 @@ class _ModuleWidgetState extends State<ModuleWidget> {
                   child: Text(
                     widget._buttonText,
                     style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontFamily: 'Quicksand',
                         fontWeight: FontWeight.bold,
                         fontSize: 20),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_fitness_app/widgets/module_widget.dart';
-import 'package:pbl_fitness_app/widgets/sub_module_widget_yoga.dart';
+import '../widgets/module_widget_yoga.dart';
+import '../widgets/sub_module_widget_yoga.dart';
+import '../data/yoga_data.dart';
+import '../models/yoga.dart';
 
 class SivaScreen extends StatelessWidget {
   @override
@@ -8,103 +10,190 @@ class SivaScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-            child: Text(
-          'Sivananda Yoga',
-          style: TextStyle(
+          child: Text(
+            'Sivananda Yoga',
+            style: TextStyle(
               fontSize: 20,
               fontFamily: 'QuickSand',
-              fontWeight: FontWeight.bold),
-        )),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
       body: Container(
         child: ListView(
           padding: const EdgeInsets.all(10),
           children: <Widget>[
-            ModuleWidget(SubModuleWidgetYoga('s1'), 'ANULOMA VILOMA',
-                'assets/images/yoga/siva/anulom.jpg'),
-            SizedBox(
-              height: 8,
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's1',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's1'),
+              ),
+              'ANULOMA VILOMA',
+              'assets/images/yoga/siva/anulom.jpg',
+              'Anuloma Viloma',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s2'), 'BACKBEND',
-                'assets/images/yoga/siva/backbend.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's2',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's2'),
+              ),
+              'BACKBEND',
+              'assets/images/yoga/siva/backbend.jpg',
+              'Backbend',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s3'), 'ANJANEYASANA',
-                'assets/images/yoga/siva/anja.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's3',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's3'),
+              ),
+              'ANJANEYASANA',
+              'assets/images/yoga/siva/anja.jpg',
+              'Anjaneyasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s4'), 'KNEES, CHEST, CHIN',
-                'assets/images/yoga/siva/kcc.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's4',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's4'),
+              ),
+              'KNEES, CHEST, CHIN',
+              'assets/images/yoga/siva/kcc.jpg',
+              'Ashtanga Namaskara',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s5'), 'BHUJANGASANA',
-                'assets/images/yoga/siva/bhu.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's5',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's5'),
+              ),
+              'BHUJANGASANA',
+              'assets/images/yoga/siva/bhu.jpg',
+              'Bhujangasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s6'), 'LOW LUNGE',
-                'assets/images/yoga/siva/low_lunge.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's6',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's6'),
+              ),
+              'LOW LUNGE',
+              'assets/images/yoga/siva/low_lunge.jpg',
+              'Low Lunge',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s7'), 'BALASANA',
-                'assets/images/yoga/siva/bala.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's7',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's7'),
+              ),
+              'BALASANA',
+              'assets/images/yoga/siva/bala.jpg',
+              'Balasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s8'), 'HALASANA',
-                'assets/images/yoga/siva/hala.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's8',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's8'),
+              ),
+              'HALASANA',
+              'assets/images/yoga/siva/hala.jpg',
+              'Halasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s9'), 'MATSYASANA',
-                'assets/images/yoga/siva/matsya.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's9',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's9'),
+              ),
+              'MATSYASANA',
+              'assets/images/yoga/siva/matsya.jpg',
+              'Matsyasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s10'), 'PASCHIMOTTANASANA',
-                'assets/images/yoga/siva/paschi.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's10',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's10'),
+              ),
+              'PASCHIMOTTANASANA',
+              'assets/images/yoga/siva/paschi.jpg',
+              'Paschimottanasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s11'), 'REST',
-                'assets/images/yoga/siva/rest.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's11',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's11'),
+              ),
+              'REST',
+              'assets/images/yoga/siva/rest.jpg',
+              'Savasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s12'), 'SALABHASANA',
-                'assets/images/yoga/siva/salabh.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's12',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's12'),
+              ),
+              'SALABHASANA',
+              'assets/images/yoga/siva/salabh.jpg',
+              'Salabhasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s13'), 'DHANURASANA',
-                'assets/images/yoga/siva/dhanu.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's13',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's13'),
+              ),
+              'DHANURASANA',
+              'assets/images/yoga/siva/dhanu.jpg',
+              'Dhanurasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s14'), 'CHILD’S POSE',
-                'assets/images/yoga/siva/child.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's14',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's14'),
+              ),
+              'CHILD\'S POSE',
+              'assets/images/yoga/siva/child.jpg',
+              'Balasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s15'), 'ARDHA MATSYENDRASANA',
-                'assets/images/yoga/siva/ardha_matsy.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's15',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's15'),
+              ),
+              'ARDHA MATSYENDRASANA',
+              'assets/images/yoga/siva/ardha_matsy.jpg',
+              'Ardha Matsyendrasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s16'), 'PADA HASTASANA',
-                'assets/images/yoga/siva/pada.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's16',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's16'),
+              ),
+              'PADA HASTASANA',
+              'assets/images/yoga/siva/pada.jpg',
+              'Pada Hastasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('s17'), 'EASY POSE',
-                'assets/images/yoga/siva/easy.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                's17',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 's17'),
+              ),
+              'EASY POSE',
+              'assets/images/yoga/siva/easy.jpg',
+              'Sukhasana',
             ),
+            SizedBox(height: 8),
           ],
         ),
       ),

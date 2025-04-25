@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pbl_fitness_app/widgets/module_widget.dart';
 import 'package:pbl_fitness_app/widgets/sub_module_widget_gym.dart';
+import 'package:pbl_fitness_app/data/gym_data.dart';
 
 class AbsScreen extends StatelessWidget {
   @override
@@ -20,88 +21,138 @@ class AbsScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(10),
           children: <Widget>[
-            ModuleWidget(SubModuleWidgetGym('a1'), 'Exercise Ball Pull-In',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a1',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a1'),
+                ),
+                'Exercise Ball Pull-In',
                 'assets/images/gym/abs/ball.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
             // UPPER ABS
-            ModuleWidget(SubModuleWidgetGym('a2'), 'Dumbbell crunch',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a2',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a2'),
+                ),
+                'Dumbbell crunch',
                 'assets/images/gym/abs/dumbell_crunch.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
-            ModuleWidget(SubModuleWidgetGym('a3'), 'Tuck and crunch',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a3',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a3'),
+                ),
+                'Tuck and crunch',
                 'assets/images/gym/abs/tuck_crunch.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
-            ModuleWidget(SubModuleWidgetGym('a4'), 'Modified V-sit',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a4',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a4'),
+                ),
+                'Modified V-sit',
                 'assets/images/gym/abs/v_sit.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
-            ModuleWidget(SubModuleWidgetGym('a5'), 'Crunch',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a5',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a5'),
+                ),
+                'Crunch',
                 'assets/images/gym/abs/crunch.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
             // LOWER ABS
-            ModuleWidget(SubModuleWidgetGym('a6'), 'Hanging leg raise',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a6',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a6'),
+                ),
+                'Hanging leg raise',
                 'assets/images/gym/abs/hanging_leg.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
-            ModuleWidget(SubModuleWidgetGym('a7'), 'Hanging knee raise twist',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a7',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a7'),
+                ),
+                'Hanging knee raise twist',
                 'assets/images/gym/abs/knee_twist.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
-            ModuleWidget(SubModuleWidgetGym('a8'), 'Hanging knee raise',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a8',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a8'),
+                ),
+                'Hanging knee raise',
                 'assets/images/gym/abs/knee_raise.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
-            ModuleWidget(SubModuleWidgetGym('a9'), 'Garhammer raise',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a9',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a9'),
+                ),
+                'Garhammer raise',
                 'assets/images/gym/abs/garhammer.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
             // Obliques And Core Workout
             ModuleWidget(
-                SubModuleWidgetGym('a10'),
+                SubModuleWidgetGym(
+                  'a10',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a10'),
+                ),
                 'Decline plank with foot touch',
                 'assets/images/gym/abs/decline_plank.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
-            ModuleWidget(SubModuleWidgetGym('a11'), 'Seated Russian twist',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a11',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a11'),
+                ),
+                'Seated Russian twist',
                 'assets/images/gym/abs/seated_russian.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
-            ModuleWidget(SubModuleWidgetGym('a12'), 'Bicycle crunches',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a12',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a12'),
+                ),
+                'Bicycle crunches',
                 'assets/images/gym/abs/bicycle.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
 
-            ModuleWidget(SubModuleWidgetGym('a13'), 'Plank',
+            ModuleWidget(
+                SubModuleWidgetGym(
+                  'a13',
+                  exercise:
+                      gymData.firstWhere((exercise) => exercise.id == 'a13'),
+                ),
+                'Plank',
                 'assets/images/gym/abs/plank.jpg'),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
           ],
         ),
       ),

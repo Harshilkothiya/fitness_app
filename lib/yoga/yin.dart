@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_fitness_app/widgets/module_widget.dart';
+import 'package:pbl_fitness_app/widgets/module_widget_yoga.dart';
 import 'package:pbl_fitness_app/widgets/sub_module_widget_yoga.dart';
+import 'package:pbl_fitness_app/data/yoga_data.dart';
+import 'package:pbl_fitness_app/models/yoga.dart';
 
 class YinScreen extends StatelessWidget {
   @override
@@ -20,66 +22,126 @@ class YinScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(10),
           children: <Widget>[
-            ModuleWidget(SubModuleWidgetYoga('y1'), 'Butterfly',
-                'assets/images/yoga/yin/butterfly.jpg'),
-            SizedBox(
-              height: 8,
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y1',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y1'),
+              ),
+              'Butterfly',
+              'assets/images/yoga/yin/butterfly.jpg',
+              'Butterfly',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y2'), 'Sphinx',
-                'assets/images/yoga/yin/sphinx.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y2',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y2'),
+              ),
+              'Sphinx',
+              'assets/images/yoga/yin/sphinx.jpg',
+              'Sphinx',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y3'), 'Open Wing',
-                'assets/images/yoga/yin/wing.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y3',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y3'),
+              ),
+              'Open Wing',
+              'assets/images/yoga/yin/wing.jpg',
+              'Open Wing',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y4'), 'Wide-kneed Child’s Pose',
-                'assets/images/yoga/yin/wide_child.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y4',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y4'),
+              ),
+              "Wide-kneed Child's Pose",
+              'assets/images/yoga/yin/wide_child.jpg',
+              'Balasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y5'), 'Dragon (A)',
-                'assets/images/yoga/yin/dragon_a.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y5',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y5'),
+              ),
+              'Dragon (A)',
+              'assets/images/yoga/yin/dragon_a.jpg',
+              'Dragon (A)',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y6'), 'Dragon (B)',
-                'assets/images/yoga/yin/dragon_b.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y6',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y6'),
+              ),
+              'Dragon (B)',
+              'assets/images/yoga/yin/dragon_b.jpg',
+              'Dragon (B)',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y7'), 'Dragon (C)',
-                'assets/images/yoga/yin/dragon_c.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y7',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y7'),
+              ),
+              'Dragon (C)',
+              'assets/images/yoga/yin/dragon_c.jpg',
+              'Dragon (C)',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y8'), 'Swan',
-                'assets/images/yoga/yin/swan.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y8',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y8'),
+              ),
+              'Swan',
+              'assets/images/yoga/yin/swan.jpg',
+              'Swan',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y9'), 'Caterpillar',
-                'assets/images/yoga/yin/cater.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y9',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y9'),
+              ),
+              'Caterpillar',
+              'assets/images/yoga/yin/cater.jpg',
+              'Caterpillar',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y10'), 'Bananasana',
-                'assets/images/yoga/yin/banana.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y10',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y10'),
+              ),
+              'Bananasana',
+              'assets/images/yoga/yin/banana.jpg',
+              'Bananasana',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y11'), 'Twisted Root',
-                'assets/images/yoga/yin/root.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y11',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y11'),
+              ),
+              'Twisted Root',
+              'assets/images/yoga/yin/root.jpg',
+              'Twisted Root',
             ),
-            ModuleWidget(SubModuleWidgetYoga('y12'), 'Corpse Pose/Pentacle',
-                'assets/images/yoga/yin/corpse.jpg'),
-            SizedBox(
-              height: 8,
+            SizedBox(height: 8),
+            ModuleWidgetYoga(
+              SubModuleWidgetYoga(
+                'y12',
+                pose: YOGA_DATA.firstWhere((pose) => pose.id == 'y12'),
+              ),
+              'Corpse Pose/Pentacle',
+              'assets/images/yoga/yin/corpse.jpg',
+              'Savasana',
             ),
+            SizedBox(height: 8),
           ],
         ),
       ),
