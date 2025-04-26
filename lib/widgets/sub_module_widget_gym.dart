@@ -85,7 +85,7 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1C1B1E),
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
@@ -94,7 +94,7 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
             expandedHeight: 300,
             floating: false,
             pinned: true,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 fit: StackFit.expand,
@@ -111,7 +111,7 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.transparent,
-                          Colors.black.withOpacity(0.7),
+                          Colors.white.withOpacity(0.7),
                         ],
                       ),
                     ),
@@ -121,7 +121,7 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
               title: Text(
                 widget.exercise.title,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF222B45),
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -129,7 +129,7 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
               centerTitle: true,
             ),
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(Icons.arrow_back, color: Color(0xFF1976D2)),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ),
@@ -146,24 +146,21 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Exercise Info Cards
-                      Row(
+                      Wrap(
+                        spacing: 16,
+                        runSpacing: 16,
                         children: [
-                          Expanded(
-                            child: _buildInfoCard(
-                              'Difficulty',
-                              widget.exercise.difficulty,
-                              Icons.fitness_center,
-                              Colors.orange,
-                            ),
+                          _buildInfoCard(
+                            'Difficulty',
+                            (widget.exercise.difficulty.isNotEmpty ? widget.exercise.difficulty : 'N/A'),
+                            Icons.fitness_center,
+                            Color(0xFFFF9800),
                           ),
-                          SizedBox(width: 16),
-                          Expanded(
-                            child: _buildInfoCard(
-                              'Equipment',
-                              widget.exercise.equipment as String,
-                              Icons.sports_gymnastics,
-                              Colors.blue,
-                            ),
+                          _buildInfoCard(
+                            'Equipment',
+                            (widget.exercise.equipment.isNotEmpty ? widget.exercise.equipment.join(', ') : 'None'),
+                            Icons.sports_gymnastics,
+                            Color(0xFF1976D2),
                           ),
                         ],
                       ),
@@ -172,23 +169,23 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
                       if (widget.exercise.time != null ||
                           widget.exercise.repetitions != null) ...[
                         SizedBox(height: 16),
-                        Row(
+                        Wrap(
+                          spacing: 16,
+                          runSpacing: 16,
                           children: [
                             if (widget.exercise.time != null)
-                              Expanded(
-                                child: _buildTimerCard(),
+                              _buildInfoCard(
+                                'Timer',
+                                widget.exercise.time != null ? '${widget.exercise.time}s' : 'N/A',
+                                Icons.timer,
+                                Color(0xFFD32F2F),
                               ),
-                            if (widget.exercise.time != null &&
-                                widget.exercise.repetitions != null)
-                              SizedBox(width: 16),
                             if (widget.exercise.repetitions != null)
-                              Expanded(
-                                child: _buildInfoCard(
-                                  'Reps',
-                                  '${widget.exercise.repetitions}',
-                                  Icons.repeat,
-                                  Colors.purple,
-                                ),
+                              _buildInfoCard(
+                                'Reps',
+                                widget.exercise.repetitions != null ? '${widget.exercise.repetitions}' : 'N/A',
+                                Icons.repeat,
+                                Color(0xFF1976D2),
                               ),
                           ],
                         ),
@@ -201,57 +198,51 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Color(0xFF222B45),
                         ),
                       ),
                       SizedBox(height: 16),
-                      Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.1),
+                      Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: widget.exercise.description.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 16),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(top: 6),
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Text(
-                                      '${index + 1}',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
+                        margin: EdgeInsets.zero,
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: List.generate(
+                              widget.exercise.description.length,
+                              (index) => Padding(
+                                padding: EdgeInsets.only(bottom: 12),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 4),
+                                      child: Icon(
+                                        Icons.circle,
+                                        size: 10,
+                                        color: Color(0xFF1976D2),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(width: 16),
-                                  Expanded(
-                                    child: Text(
-                                      widget.exercise.description[index],
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                        height: 1.5,
+                                    SizedBox(width: 12),
+                                    Expanded(
+                                      child: Text(
+                                        widget.exercise.description[index],
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFF6E7582),
+                                          height: 1.5,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         ),
                       ),
 
@@ -263,7 +254,7 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Color(0xFF222B45),
                           ),
                         ),
                         SizedBox(height: 16),
@@ -292,7 +283,7 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
                                         tip,
                                         style: TextStyle(
                                           fontSize: 16,
-                                          color: Colors.white,
+                                          color: Color(0xFF6E7582),
                                           height: 1.5,
                                         ),
                                       ),
@@ -313,7 +304,7 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Color(0xFF222B45),
                           ),
                         ),
                         SizedBox(height: 16),
@@ -343,7 +334,7 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
                                         variation,
                                         style: TextStyle(
                                           fontSize: 16,
-                                          color: Colors.white,
+                                          color: Color(0xFF6E7582),
                                           height: 1.5,
                                         ),
                                       ),
@@ -369,47 +360,52 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
 
   Widget _buildInfoCard(
       String title, String content, IconData icon, Color color) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+    return Card(
+      elevation: 2,
+      margin: EdgeInsets.only(bottom: 16),
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Icon(icon, color: color, size: 26),
+              ),
             ),
-            child: Icon(icon, color: color),
-          ),
-          SizedBox(width: 12),
-          Expanded(
-            child: Column(
+            SizedBox(width: 18),
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white70,
+                    fontSize: 15,
+                    color: Color(0xFF6E7582),
                   ),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: 2),
                 Text(
                   content,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Color(0xFF6E7582),
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

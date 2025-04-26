@@ -101,9 +101,9 @@ class GymScreen extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 15,
-                  childAspectRatio: 0.85,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
+                  childAspectRatio: 1.0,
                 ),
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
@@ -117,41 +117,49 @@ class GymScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Container(
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 150),
+                      curve: Curves.easeInOut,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(
+                            color: category['iconColor'].withOpacity(0.12),
+                            width: 1.2),
                         boxShadow: [
                           BoxShadow(
-                            color: category['iconColor'].withOpacity(0.1),
-                            blurRadius: 20,
-                            spreadRadius: 2,
+                            color: Colors.black.withOpacity(0.04),
+                            blurRadius: 8,
+                            offset: Offset(0, 2),
                           ),
                         ],
                       ),
-                      padding: EdgeInsets.all(20),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 18),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            padding: EdgeInsets.all(15),
+                            padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: category['iconBgColor'],
-                              shape: BoxShape.circle,
+                              borderRadius: BorderRadius.circular(12),
                             ),
                             child: Icon(
                               category['icon'],
                               color: category['iconColor'],
-                              size: 30,
+                              size: 32,
                             ),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 18),
                           Text(
                             category['title'],
                             style: TextStyle(
-                              color: Colors.black87,
+                              color: Color(0xFF222B45),
                               fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.5,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -159,7 +167,7 @@ class GymScreen extends StatelessWidget {
                           Text(
                             category['description'],
                             style: TextStyle(
-                              color: Colors.grey[600],
+                              color: Color(0xFF6E7582),
                               fontSize: 12,
                             ),
                             textAlign: TextAlign.center,
