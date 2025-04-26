@@ -11,108 +11,169 @@ class GymScreen extends StatelessWidget {
   final List<Map<String, dynamic>> categories = [
     {
       'title': 'Shoulder',
-      'image': 'assets/images/gym/shoulder/banner.jpg',
+      'icon': Icons.fitness_center,
       'screen': ShoulderScreen(),
+      'description': 'Build shoulder strength and definition',
+      'iconColor': Color(0xFF6448FE),
+      'iconBgColor': Color(0xFFF0EEFF),
     },
     {
       'title': 'Legs',
-      'image': 'assets/images/gym/legs/banner.jpg',
+      'icon': Icons.accessibility_new,
       'screen': LegsScreen(),
+      'description': 'Strengthen your lower body',
+      'iconColor': Color(0xFF5FC6FF),
+      'iconBgColor': Color(0xFFEFF8FF),
     },
     {
       'title': 'Back',
-      'image': 'assets/images/gym/back/banner.jpg',
+      'icon': Icons.airline_seat_flat,
       'screen': BackScreen(),
+      'description': 'Improve posture and back muscles',
+      'iconColor': Color(0xFF6448FE),
+      'iconBgColor': Color(0xFFF0EEFF),
     },
     {
       'title': 'Chest',
-      'image': 'assets/images/gym/chest/banner.jpg',
+      'icon': Icons.fitness_center,
       'screen': ChestScreen(),
+      'description': 'Build chest strength and mass',
+      'iconColor': Color(0xFF5FC6FF),
+      'iconBgColor': Color(0xFFEFF8FF),
     },
     {
       'title': 'Biceps',
-      'image': 'assets/images/gym/bicep/banner.jpg',
-      'screen': BicepScreen(),
+      'icon': Icons.sports_gymnastics,
+      'screen': BicepsScreen(),
+      'description': 'Develop arm strength',
+      'iconColor': Color(0xFF6448FE),
+      'iconBgColor': Color(0xFFF0EEFF),
     },
     {
       'title': 'Triceps',
-      'image': 'assets/images/gym/triceps/banner.jpg',
+      'icon': Icons.sports_martial_arts,
       'screen': TricepsScreen(),
+      'description': 'Shape and tone your arms',
+      'iconColor': Color(0xFF5FC6FF),
+      'iconBgColor': Color(0xFFEFF8FF),
     },
     {
       'title': 'Abs',
-      'image': 'assets/images/gym/abs/banner.jpg',
+      'icon': Icons.straighten,
       'screen': AbsScreen(),
+      'description': 'Build core strength',
+      'iconColor': Color(0xFF6448FE),
+      'iconBgColor': Color(0xFFF0EEFF),
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
-      body: Column(
-        children: [
-          Container(
-            height: 200,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/gym/banner.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.purple.withOpacity(0.6),
-                    Colors.purple.withOpacity(0.3),
-                  ],
-                ),
-              ),
-              child: SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.white),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      Spacer(),
-                      Text(
-                        'Gym Exercises',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                    ],
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    icon:
+                        Icon(Icons.arrow_back, color: Colors.black87, size: 24),
+                    onPressed: () => Navigator.of(context).pop(),
+                    padding: EdgeInsets.zero,
                   ),
+                  Text(
+                    'Gym Exercises',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 15,
+                  childAspectRatio: 0.85,
                 ),
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  final category = categories[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => category['screen'],
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: category['iconColor'].withOpacity(0.1),
+                            blurRadius: 20,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: category['iconBgColor'],
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              category['icon'],
+                              color: category['iconColor'],
+                              size: 30,
+                            ),
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            category['title'],
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            category['description'],
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
-            ),
+            ],
           ),
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.all(16),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 1.1,
-              ),
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => category['screen'],
- 
+        ),
+      ),
+    );
+  }
+}

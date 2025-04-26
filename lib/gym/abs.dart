@@ -1,160 +1,248 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_fitness_app/widgets/module_widget.dart';
-import 'package:pbl_fitness_app/widgets/sub_module_widget_gym.dart';
 import 'package:pbl_fitness_app/data/gym_data.dart';
+import 'package:pbl_fitness_app/widgets/sub_module_widget_gym.dart';
 
 class AbsScreen extends StatelessWidget {
+  final List<Map<String, dynamic>> absExercises = [
+    {
+      'id': 'a1',
+      'title': 'Exercise Ball Pull-In',
+      'image': 'assets/images/gym/abs/ball_pull.jpg',
+      'equipment': ['Exercise Ball'],
+    },
+    {
+      'id': 'a2',
+      'title': 'Dumbbell Crunch',
+      'image': 'assets/images/gym/abs/dumbbell_crunch.jpg',
+      'equipment': ['Dumbbell'],
+    },
+    {
+      'id': 'a3',
+      'title': 'Tuck and Crunch',
+      'image': 'assets/images/gym/abs/tuck_crunch.jpg',
+      'equipment': ['None'],
+    },
+    {
+      'id': 'a4',
+      'title': 'Modified V-Sit',
+      'image': 'assets/images/gym/abs/v_sit.jpg',
+      'equipment': ['None'],
+    },
+    {
+      'id': 'a5',
+      'title': 'Crunch',
+      'image': 'assets/images/gym/abs/crunch.jpg',
+      'equipment': ['None'],
+    },
+    {
+      'id': 'a6',
+      'title': 'Hanging Leg Raise',
+      'image': 'assets/images/gym/abs/leg_raise.jpg',
+      'equipment': ['Pull-up Bar'],
+    },
+    {
+      'id': 'a7',
+      'title': 'Hanging Knee Raise Twist',
+      'image': 'assets/images/gym/abs/knee_twist.jpg',
+      'equipment': ['Pull-up Bar'],
+    },
+    {
+      'id': 'a8',
+      'title': 'Hanging Knee Raise',
+      'image': 'assets/images/gym/abs/knee_raise.jpg',
+      'equipment': ['Pull-up Bar'],
+    },
+    {
+      'id': 'a9',
+      'title': 'Garhammer Raise',
+      'image': 'assets/images/gym/abs/garhammer.jpg',
+      'equipment': ['Pull-up Bar'],
+    },
+    {
+      'id': 'a10',
+      'title': 'Decline Plank with Foot Touch',
+      'image': 'assets/images/gym/abs/decline_plank.jpg',
+      'equipment': ['Bench'],
+    },
+    {
+      'id': 'a11',
+      'title': 'Seated Russian Twist',
+      'image': 'assets/images/gym/abs/russian_twist.jpg',
+      'equipment': ['Weight Plate'],
+    },
+    {
+      'id': 'a12',
+      'title': 'Bicycle Crunches',
+      'image': 'assets/images/gym/abs/bicycle.jpg',
+      'equipment': ['None'],
+    },
+    {
+      'id': 'a13',
+      'title': 'Plank',
+      'image': 'assets/images/gym/abs/plank.jpg',
+      'equipment': ['None'],
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Center(
-            child: Text(
-          'Abs',
-          style: TextStyle(
-              fontSize: 20,
-              fontFamily: 'QuickSand',
-              fontWeight: FontWeight.bold),
-        )),
-      ),
-      body: Container(
-        child: ListView(
-          padding: const EdgeInsets.all(10),
-          children: <Widget>[
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a1',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a1'),
-                ),
-                'Exercise Ball Pull-In',
-                'assets/images/gym/abs/ball.jpg'),
-            SizedBox(height: 8),
-
-            // UPPER ABS
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a2',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a2'),
-                ),
-                'Dumbbell crunch',
-                'assets/images/gym/abs/dumbell_crunch.jpg'),
-            SizedBox(height: 8),
-
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a3',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a3'),
-                ),
-                'Tuck and crunch',
-                'assets/images/gym/abs/tuck_crunch.jpg'),
-            SizedBox(height: 8),
-
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a4',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a4'),
-                ),
-                'Modified V-sit',
-                'assets/images/gym/abs/v_sit.jpg'),
-            SizedBox(height: 8),
-
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a5',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a5'),
-                ),
-                'Crunch',
-                'assets/images/gym/abs/crunch.jpg'),
-            SizedBox(height: 8),
-
-            // LOWER ABS
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a6',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a6'),
-                ),
-                'Hanging leg raise',
-                'assets/images/gym/abs/hanging_leg.jpg'),
-            SizedBox(height: 8),
-
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a7',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a7'),
-                ),
-                'Hanging knee raise twist',
-                'assets/images/gym/abs/knee_twist.jpg'),
-            SizedBox(height: 8),
-
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a8',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a8'),
-                ),
-                'Hanging knee raise',
-                'assets/images/gym/abs/knee_raise.jpg'),
-            SizedBox(height: 8),
-
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a9',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a9'),
-                ),
-                'Garhammer raise',
-                'assets/images/gym/abs/garhammer.jpg'),
-            SizedBox(height: 8),
-
-            // Obliques And Core Workout
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a10',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a10'),
-                ),
-                'Decline plank with foot touch',
-                'assets/images/gym/abs/decline_plank.jpg'),
-            SizedBox(height: 8),
-
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a11',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a11'),
-                ),
-                'Seated Russian twist',
-                'assets/images/gym/abs/seated_russian.jpg'),
-            SizedBox(height: 8),
-
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a12',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a12'),
-                ),
-                'Bicycle crunches',
-                'assets/images/gym/abs/bicycle.jpg'),
-            SizedBox(height: 8),
-
-            ModuleWidget(
-                SubModuleWidgetGym(
-                  'a13',
-                  exercise:
-                      gymData.firstWhere((exercise) => exercise.id == 'a13'),
-                ),
-                'Plank',
-                'assets/images/gym/abs/plank.jpg'),
-            SizedBox(height: 8),
-          ],
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black87),
+          onPressed: () => Navigator.of(context).pop(),
         ),
+        title: Text(
+          'Abs Exercises',
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      body: ListView.builder(
+        padding: EdgeInsets.all(16),
+        itemCount: absExercises.length,
+        itemBuilder: (context, index) {
+          final exercise = absExercises[index];
+          final gymExercise = gymData.firstWhere(
+            (e) => e.id == exercise['id'],
+            orElse: () => gymData.first,
+          );
+
+          return Padding(
+            padding: EdgeInsets.only(bottom: 16),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SubModuleWidgetGym(
+                      exercise['id'],
+                      exercise: gymExercise,
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      blurRadius: 20,
+                      spreadRadius: 2,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 160,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.fitness_center,
+                          size: 48,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            exercise['title'],
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  'Abs',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              ...exercise['equipment']
+                                  .map<Widget>(
+                                    (equipment) => Padding(
+                                      padding: EdgeInsets.only(right: 8),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                          vertical: 6,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[200],
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Text(
+                                          equipment,
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.blue[400],
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
