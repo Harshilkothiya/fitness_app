@@ -10,6 +10,11 @@ import 'yoga_screen.dart';
 import 'health_tips.dart';
 import 'workout_detail_screen.dart';
 import 'diet_screen.dart';
+import 'track_progress_screen.dart';
+import '../providers/progress_provider.dart';
+
+// Add a global RouteObserver
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, RouteAware {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
@@ -47,10 +52,25 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)! as PageRoute);
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     _scrollController.dispose();
+    routeObserver.unsubscribe(this);
     super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    // Called when coming back to this screen
+    setState(() {
+      _selectedIndex = 0;
+    });
   }
 
   void _onBottomNavTap(int index) {
@@ -98,144 +118,183 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     final user = userProvider.currentUser;
+    final progress = Provider.of<ProgressProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF6C63FF),
-              Color(0xFF4B45B2),
-            ],
-          ),
-        ),
-        child: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                expandedHeight: 200,
-                floating: false,
-                pinned: true,
-                snap: false,
-                backgroundColor: Color(0xFF6C63FF),
-                elevation: 0,
-                stretch: true,
-                automaticallyImplyLeading: false,
-                flexibleSpace: FlexibleSpaceBar(
-                  titlePadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  title: Text(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Welcome Card
+              Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                margin: EdgeInsets.only(bottom: 20),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                  child: Row(
+                    children: [
+                      Icon(Icons.waving_hand,
+                          color: Color(0xFF1976D2), size: 32),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
                     'Welcome, ${user?.name ?? "John Doe"}',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                            fontSize: 22,
                       fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  background: ShaderMask(
-                    shaderCallback: (rect) => LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.black, Colors.transparent],
-                    ).createShader(
-                        Rect.fromLTRB(0, 0, rect.width, rect.height)),
-                    blendMode: BlendMode.dstIn,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Image.asset(
-                          'assets/images/gym/gym.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.black.withOpacity(0.4),
-                                Colors.transparent,
-                                Color(0xFF6C63FF).withOpacity(0.8),
-                              ],
-                              stops: [0.0, 0.5, 1.0],
+                            color: Color(0xFF222B45),
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  stretchModes: [
-                    StretchMode.zoomBackground,
-                    StretchMode.blurBackground,
-                  ],
-                ),
               ),
-              SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Text(
+              // Quick Actions
+              Text(
                         'Quick Actions',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
+                  fontSize: 20,
                           fontWeight: FontWeight.bold,
-                        ),
+                  color: Color(0xFF222B45),
                       ),
                     ),
-                    Container(
-                      height: 140,
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
+              SizedBox(height: 12),
+              Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _buildQuickActionCard(
+                  _modernQuickActionCard(
                             icon: Icons.directions_run,
-                            title: 'Start\nWorkout',
+                    color: Color(0xFF1976D2),
+                    title: 'Start Workout',
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      WorkoutSelectionScreen()),
+                          builder: (context) => WorkoutSelectionScreen()),
                             ),
                           ),
-                          _buildQuickActionCard(
+                  _modernQuickActionCard(
                             icon: Icons.timer,
-                            title: 'Track\nProgress',
+                    color: Color(0xFFFF9800),
+                    title: 'Track Progress',
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CardioScreen()),
+                          builder: (context) => TrackProgressScreen()),
                             ),
                           ),
-                          _buildQuickActionCard(
+                  _modernQuickActionCard(
                             icon: Icons.person,
+                    color: Color(0xFF43A047),
                             title: 'Profile',
                             onTap: () => Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfileScreen()),
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
                             ),
                           ),
                         ],
                       ),
+              SizedBox(height: 28),
+              // Progress Section
+              Text(
+                'Your Progress',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF222B45),
+                ),
+              ),
+              SizedBox(height: 12),
+              SizedBox(
+                height: 160,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    _modernProgressCard(
+                      icon: Icons.local_fire_department,
+                      color: Color(0xFFFF9800),
+                      title: 'Calories',
+                      value: progress.totalCalories.toStringAsFixed(0),
+                      unit: 'kcal',
                     ),
-                    SizedBox(height: 24),
-                    _buildSectionTitle('Your Progress'),
-                    SizedBox(height: 16),
-                    _buildProgressSection(),
-                    SizedBox(height: 24),
-                    _buildSectionTitle('Recommended Workouts'),
-                    SizedBox(height: 16),
-                    _buildWorkoutsList(),
+                    _modernProgressCard(
+                      icon: Icons.directions_walk,
+                      color: Color(0xFF1976D2),
+                      title: 'Steps',
+                      value: '8,439',
+                      unit: 'steps',
+                    ),
+                    _modernProgressCard(
+                      icon: Icons.timer,
+                      color: Color(0xFF43A047),
+                      title: 'Time',
+                      value: (progress.totalTime ~/ 60).toString(),
+                      unit: 'min',
+                    ),
                   ],
                 ),
               ),
+              SizedBox(height: 28),
+              // Recommended Workouts
+              Text(
+                'Recommended Workouts',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF222B45),
+                ),
+              ),
+              SizedBox(height: 12),
+              SizedBox(
+                height: 180,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    _modernWorkoutCard(
+                      title: 'Full Body Workout',
+                      duration: '45 min',
+                      intensity: 'Medium',
+                      image:
+                          'https://images.unsplash.com/photo-1549060279-7e168fcee0c2',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WorkoutSelectionScreen()),
+                      ),
+                    ),
+                    _modernWorkoutCard(
+                      title: 'HIIT Training',
+                      duration: '30 min',
+                      intensity: 'High',
+                      image:
+                          'https://images.unsplash.com/photo-1434596922112-19c563067271',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CardioScreen()),
+                      ),
+                    ),
+                    _modernWorkoutCard(
+                      title: 'Yoga Flow',
+                      duration: '60 min',
+                      intensity: 'Low',
+                      image:
+                          'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => YogaScreen()),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 32),
             ],
           ),
         ),
@@ -266,64 +325,44 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildSectionTitle(String title) {
-    return ShaderMask(
-      shaderCallback: (bounds) => LinearGradient(
-        colors: [
-          Colors.white,
-          Color(0xFFE0E0FF),
-        ],
-      ).createShader(bounds),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildQuickActionCard({
+  Widget _modernQuickActionCard({
     required IconData icon,
+    required Color color,
     required String title,
     required VoidCallback onTap,
   }) {
     return Expanded(
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 6),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
+      child: GestureDetector(
             onTap: onTap,
-            borderRadius: BorderRadius.circular(20),
+        child: Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
             child: Padding(
-              padding: EdgeInsets.all(16),
+            padding: EdgeInsets.symmetric(vertical: 22),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    icon,
-                    color: Colors.white,
-                    size: 32,
+                Container(
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  SizedBox(height: 12),
+                  padding: EdgeInsets.all(12),
+                  child: Icon(icon, color: color, size: 28),
+                  ),
+                SizedBox(height: 14),
                   Text(
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
+                    color: Color(0xFF222B45),
+                    fontWeight: FontWeight.w600,
                       fontSize: 14,
-                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
-              ),
             ),
           ),
         ),
@@ -331,71 +370,40 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildProgressSection() {
-    return Container(
-      height: 160,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          _buildProgressCard(
-            title: 'Calories',
-            value: '350',
-            unit: 'kcal',
-            icon: Icons.local_fire_department,
-            color: Color(0xFF7C74FF),
-          ),
-          _buildProgressCard(
-            title: 'Steps',
-            value: '8,439',
-            unit: 'steps',
-            icon: Icons.directions_walk,
-            color: Color(0xFF5B54D4),
-          ),
-          _buildProgressCard(
-            title: 'Time',
-            value: '45',
-            unit: 'min',
-            icon: Icons.timer,
-            color: Color(0xFF4B45B2),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildProgressCard({
+  Widget _modernProgressCard({
+    required IconData icon,
+    required Color color,
     required String title,
     required String value,
     required String unit,
-    required IconData icon,
-    required Color color,
   }) {
     return Container(
-      width: 160,
+      width: 140,
       margin: EdgeInsets.only(right: 16),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.3),
-            blurRadius: 8,
-            offset: Offset(0, 4),
-          ),
-        ],
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, color: Colors.white, size: 32),
-            Spacer(),
+              Container(
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.all(8),
+                child: Icon(icon, color: color, size: 22),
+              ),
+              SizedBox(height: 18),
             Text(
               title,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.7),
-                fontSize: 16,
+                  color: Color(0xFF6E7582),
+                  fontSize: 14,
               ),
             ),
             SizedBox(height: 4),
@@ -405,75 +413,33 @@ class _HomeScreenState extends State<HomeScreen>
                 Text(
                   value,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
+                      color: Color(0xFF222B45),
+                      fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(width: 4),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 4),
+                    padding: EdgeInsets.only(bottom: 2),
                   child: Text(
                     unit,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
-                      fontSize: 14,
+                        color: Color(0xFF6E7582),
+                        fontSize: 13,
+                      ),
                     ),
                   ),
+                ],
                 ),
+              SizedBox(height: 4),
               ],
             ),
-          ],
         ),
       ),
     );
   }
 
-  Widget _buildWorkoutsList() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          _buildWorkoutCard(
-            title: 'Full Body Workout',
-            duration: '45 min',
-            intensity: 'Medium',
-            image: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2',
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => WorkoutSelectionScreen()),
-            ),
-          ),
-          SizedBox(height: 16),
-          _buildWorkoutCard(
-            title: 'HIIT Training',
-            duration: '30 min',
-            intensity: 'High',
-            image:
-                'https://images.unsplash.com/photo-1434596922112-19c563067271',
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CardioScreen()),
-            ),
-          ),
-          SizedBox(height: 16),
-          _buildWorkoutCard(
-            title: 'Yoga Flow',
-            duration: '60 min',
-            intensity: 'Low',
-            image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b',
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => YogaScreen()),
-            ),
-          ),
-          SizedBox(height: 32), // Add bottom padding
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWorkoutCard({
+  Widget _modernWorkoutCard({
     required String title,
     required String duration,
     required String intensity,
@@ -483,36 +449,20 @@ class _HomeScreenState extends State<HomeScreen>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-      height: 160,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: Offset(0, 4),
+        width: 220,
+        margin: EdgeInsets.only(right: 16),
+        child: Card(
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
           ),
-        ],
-      ),
-      child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+          clipBehavior: Clip.antiAlias,
         child: Stack(
           children: [
               Positioned.fill(
                 child: Image.network(
               image,
               fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
-                  },
                 ),
             ),
               Positioned.fill(
@@ -523,7 +473,7 @@ class _HomeScreenState extends State<HomeScreen>
                       end: Alignment.bottomCenter,
                   colors: [
                         Colors.transparent,
-                    Colors.black.withOpacity(0.7),
+                        Colors.black.withOpacity(0.55),
                   ],
                 ),
               ),
@@ -540,38 +490,31 @@ class _HomeScreenState extends State<HomeScreen>
                           title,
                           style: TextStyle(
                             color: Colors.white,
-                        fontSize: 24,
+                        fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                     SizedBox(height: 8),
                         Row(
                           children: [
-                        Icon(
-                          Icons.timer,
-                          color: Colors.white,
-                          size: 16,
-                        ),
+                        Icon(Icons.timer, color: Colors.white, size: 15),
                                   SizedBox(width: 4),
                                   Text(
                                     duration,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 14,
-                                    ),
+                            fontSize: 13,
                                   ),
-                        SizedBox(width: 16),
-                        Icon(
-                          Icons.fitness_center,
-                          color: Colors.white,
-                          size: 16,
                         ),
+                        SizedBox(width: 12),
+                        Icon(Icons.fitness_center,
+                            color: Colors.white, size: 15),
                                   SizedBox(width: 4),
                                   Text(
                                     intensity,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 14,
+                            fontSize: 13,
                               ),
                             ),
                           ],

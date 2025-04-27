@@ -9,16 +9,19 @@ class HathaScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Hatha Yoga',
-            style: TextStyle(
-              fontSize: 20,
-              fontFamily: 'QuickSand',
-              fontWeight: FontWeight.bold,
-            ),
+        backgroundColor: Color(0xFF4B45B2),
+        foregroundColor: Colors.white,
+        title: Text(
+          'Hatha Yoga',
+          style: TextStyle(
+            fontSize: 20,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Container(
         child: ListView(

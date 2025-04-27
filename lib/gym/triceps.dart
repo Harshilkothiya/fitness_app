@@ -59,20 +59,22 @@ class TricepsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFF4B45B2),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black87),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           'Triceps Exercises',
           style: TextStyle(
-            color: Colors.black87,
+            color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.w600,
+            fontFamily: 'Poppins',
           ),
         ),
+        centerTitle: true,
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(16),
@@ -121,12 +123,20 @@ class TricepsScreen extends StatelessWidget {
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20),
                         ),
+                        image: DecorationImage(
+                          image: AssetImage(exercise['image']),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                            Colors.black.withOpacity(0.15),
+                            BlendMode.darken,
+                          ),
+                        ),
                       ),
                       child: Center(
                         child: Icon(
                           Icons.fitness_center,
                           size: 48,
-                          color: Colors.grey[400],
+                          color: Colors.white.withOpacity(0.7),
                         ),
                       ),
                     ),
@@ -140,7 +150,8 @@ class TricepsScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black87,
+                              color: Color(0xFF222B45),
+                              fontFamily: 'Poppins',
                             ),
                           ),
                           SizedBox(height: 12),
@@ -154,13 +165,13 @@ class TricepsScreen extends StatelessWidget {
                                     vertical: 6,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Colors.grey[200],
+                                    color: Color(0xFF4B45B2).withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Text(
                                     'Triceps',
                                     style: TextStyle(
-                                      color: Colors.black54,
+                                      color: Color(0xFF4B45B2),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -202,7 +213,7 @@ class TricepsScreen extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.arrow_forward,
-                                color: Colors.blue[400],
+                                color: Color(0xFF4B45B2),
                                 size: 20,
                               ),
                             ],

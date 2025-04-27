@@ -59,20 +59,22 @@ class LegsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFF4B45B2),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black87),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Leg Exercises',
+          'Legs Exercises',
           style: TextStyle(
-            color: Colors.black87,
+            color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.w600,
+            fontFamily: 'Poppins',
           ),
         ),
+        centerTitle: true,
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(16),

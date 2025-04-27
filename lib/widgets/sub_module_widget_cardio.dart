@@ -58,6 +58,8 @@ class _SubModuleWidgetCardioState extends State<SubModuleWidgetCardio>
           SliverAppBar(
             expandedHeight: 300,
             pinned: true,
+            backgroundColor: Color(0xFF4B45B2),
+            iconTheme: IconThemeData(color: Colors.white),
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 widget.exercise.title,
@@ -77,16 +79,15 @@ class _SubModuleWidgetCardioState extends State<SubModuleWidgetCardio>
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
-                          color: Colors.grey[300],
+                          color: Color(0xFF4B45B2),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.error_outline,
-                                  size: 40, color: Colors.grey[600]),
+                              Icon(Icons.error_outline, size: 40, color: Colors.white),
                               SizedBox(height: 8),
                               Text(
                                 'Failed to load image',
-                                style: TextStyle(color: Colors.grey[600]),
+                                style: TextStyle(color: Colors.white),
                               ),
                             ],
                           ),

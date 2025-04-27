@@ -6,6 +6,7 @@ import 'package:pbl_fitness_app/authentication/register.dart';
 import 'package:pbl_fitness_app/models/user_model.dart';
 import 'package:pbl_fitness_app/providers/user_provider.dart';
 import '../screens/home_screen.dart';
+import '../theme/app_theme.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -97,177 +98,186 @@ class _LoginScreenState extends State<LoginScreen>
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF6C63FF), // Purple
-              Color(0xFF4B45B2), // Deep Purple
-              Color(0xFF2C387E), // Dark Blue
-            ],
-            stops: [0.0, 0.5, 1.0],
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          // Gradient background always fills the screen
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF6C63FF),
+                  Color(0xFF4B45B2),
+                  Color(0xFF2C387E),
+                ],
+                stops: [0.0, 0.5, 1.0],
+              ),
+            ),
           ),
-        ),
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: SlideTransition(
-            position: _slideAnimation,
-            child: ScaleTransition(
-              scale: _scaleAnimation,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      SizedBox(height: size.height * 0.1),
-                      Hero(
-                        tag: 'logo',
-                        child: Container(
-                          height: 150,
-                          child: Image.asset('assets/images/logo.jpg'),
+          // Login content scrolls above the gradient
+          FadeTransition(
+            opacity: _fadeAnimation,
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: ScaleTransition(
+                scale: _scaleAnimation,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        SizedBox(height: size.height * 0.1),
+                        Hero(
+                          tag: 'logo',
+                          child: Container(
+                            height: 150,
+                            child: Image.asset('assets/images/logo.jpg'),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 48.0),
-                      ShaderMask(
-                        shaderCallback: (bounds) => LinearGradient(
-                          colors: [
-                            Colors.white,
-                            Color(0xFFE0E0FF),
-                          ],
-                        ).createShader(bounds),
-                        child: Text(
-                          "Welcome Back!",
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withOpacity(0.2),
-                                offset: Offset(0, 2),
-                                blurRadius: 4,
-                              ),
+                        SizedBox(height: 48.0),
+                        ShaderMask(
+                          shaderCallback: (bounds) => LinearGradient(
+                            colors: [
+                              Colors.white,
+                              Color(0xFFE0E0FF),
                             ],
+                          ).createShader(bounds),
+                          child: Text(
+                            "Welcome Back!",
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  offset: Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        SizedBox(height: 8.0),
+                        Text(
+                          "Sign in to continue",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFFE0E0FF),
                           ),
                           textAlign: TextAlign.center,
                         ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        "Sign in to continue",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFFE0E0FF),
+                        SizedBox(height: 48.0),
+                        _buildTextField(
+                          controller: _usernameController,
+                          hintText: "Username",
+                          icon: Icons.person,
+                          errorText: _errorTextUsername,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 48.0),
-                      _buildTextField(
-                        controller: _usernameController,
-                        hintText: "Username",
-                        icon: Icons.person,
-                        errorText: _errorTextUsername,
-                      ),
-                      SizedBox(height: 16.0),
-                      _buildPasswordField(),
-                      SizedBox(height: 24.0),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Forgot your password?",
-                          style: TextStyle(
-                            color: Color(0xFFE0E0FF),
-                            fontSize: 14,
+                        SizedBox(height: 16.0),
+                        _buildPasswordField(),
+                        SizedBox(height: 24.0),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Forgot your password?",
+                            style: TextStyle(
+                              color: Color(0xFFE0E0FF),
+                              fontSize: 14,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 24.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xFFFFFFFF),
-                              Color(0xFFF0F0FF),
+                        SizedBox(height: 24.0),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xFFFFFFFF),
+                                Color(0xFFF0F0FF),
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: Offset(0, 5),
+                              ),
                             ],
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: Offset(0, 5),
+                          child: ElevatedButton(
+                            onPressed: () => _handleLogin(context),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                             ),
-                          ],
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () => _handleLogin(context),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          child: Text(
-                            "LOGIN",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF4B45B2),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 24.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account? ",
-                            style: TextStyle(color: Color(0xFFE0E0FF)),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-                                      RegisterScreen(),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return FadeTransition(
-                                      opacity: animation,
-                                      child: child,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
                             child: Text(
-                              "Sign up",
+                              "LOGIN",
                               style: TextStyle(
-                                color: Colors.white,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
+                                color: Color(0xFF4B45B2),
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 32.0),
-                    ],
+                        ),
+                        SizedBox(height: 24.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Don't have an account? ",
+                              style: TextStyle(color: Color(0xFFE0E0FF)),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        RegisterScreen(),
+                                    transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
+                                      return FadeTransition(
+                                        opacity: animation,
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Sign up",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 32.0),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -282,53 +292,48 @@ class _LoginScreenState extends State<LoginScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: hasError
-                  ? Color(0xFFFF8A80).withOpacity(0.5)
-                  : Colors.white.withOpacity(0.3),
-              width: hasError ? 1.5 : 1,
-            ),
-          ),
-          child: TextField(
+        TextField(
             controller: controller,
             onChanged: (text) => setState(() {}),
             style: TextStyle(
-              color: Colors.white,
+            color: Color(0xFF222B45),
               fontSize: 16,
             ),
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: TextStyle(
-                color: Colors.white.withOpacity(0.7),
-                fontSize: 16,
+          decoration: AppTheme.textFieldDecoration(hintText, icon).copyWith(
+            errorText: null,
+            errorStyle: TextStyle(height: 0),
+            filled: true,
+            fillColor: Colors.white,
+            prefixIcon: Icon(
+              icon,
+              color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
+              size: 22,
               ),
-              errorStyle: TextStyle(height: 0),
-              border: InputBorder.none,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              prefixIcon: Icon(
-                icon,
-                color: hasError
-                    ? Color(0xFFFF8A80).withOpacity(0.7)
-                    : Colors.white.withOpacity(0.7),
-                size: 22,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(
+                color: hasError ? Color(0xFFFFB4B4) : Color(0xFFE0E0E0),
+                width: 1.2,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(
+                color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
+                width: 1.5,
               ),
             ),
           ),
         ),
         if (hasError)
           Padding(
-            padding: EdgeInsets.only(left: 16, top: 8),
+            padding: EdgeInsets.only(left: 8, top: 6),
             child: Text(
-              errorText,
+              errorText!,
               style: TextStyle(
-                color: Color(0xFFFF8A80),
+                color: Color(0xFFD32F2F),
                 fontSize: 12,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
@@ -341,48 +346,29 @@ class _LoginScreenState extends State<LoginScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: hasError
-                  ? Color(0xFFFF8A80).withOpacity(0.5)
-                  : Colors.white.withOpacity(0.3),
-              width: hasError ? 1.5 : 1,
-            ),
-          ),
-          child: TextField(
+        TextField(
             controller: _passwordController,
             onChanged: (text) => setState(() {}),
             style: TextStyle(
-              color: Colors.white,
+            color: Color(0xFF222B45),
               fontSize: 16,
             ),
             obscureText: !_isPasswordVisible,
-            decoration: InputDecoration(
-              hintText: "Password",
-              hintStyle: TextStyle(
-                color: Colors.white.withOpacity(0.7),
-                fontSize: 16,
-              ),
+          decoration:
+              AppTheme.textFieldDecoration("Password", Icons.lock).copyWith(
+            errorText: null,
               errorStyle: TextStyle(height: 0),
-              border: InputBorder.none,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            filled: true,
+            fillColor: Colors.white,
               prefixIcon: Icon(
                 Icons.lock,
-                color: hasError
-                    ? Color(0xFFFF8A80).withOpacity(0.7)
-                    : Colors.white.withOpacity(0.7),
+              color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
                 size: 22,
               ),
               suffixIcon: IconButton(
                 icon: Icon(
                   _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-                  color: hasError
-                      ? Color(0xFFFF8A80).withOpacity(0.7)
-                      : Colors.white.withOpacity(0.7),
+                color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
                   size: 22,
                 ),
                 onPressed: () {
@@ -390,19 +376,32 @@ class _LoginScreenState extends State<LoginScreen>
                     _isPasswordVisible = !_isPasswordVisible;
                   });
                 },
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(
+                color: hasError ? Color(0xFFFFB4B4) : Color(0xFFE0E0E0),
+                width: 1.2,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(
+                color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
+                width: 1.5,
               ),
             ),
           ),
         ),
         if (hasError)
           Padding(
-            padding: EdgeInsets.only(left: 16, top: 8),
+            padding: EdgeInsets.only(left: 8, top: 6),
             child: Text(
               _errorTextPassword!,
               style: TextStyle(
-                color: Color(0xFFFF8A80),
+                color: Color(0xFFD32F2F),
                 fontSize: 12,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),

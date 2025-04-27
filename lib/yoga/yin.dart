@@ -9,14 +9,19 @@ class YinScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-            child: Text(
+        backgroundColor: Color(0xFF4B45B2),
+        foregroundColor: Colors.white,
+        title: Text(
           'Yin Yoga',
           style: TextStyle(
-              fontSize: 20,
-              fontFamily: 'QuickSand',
-              fontWeight: FontWeight.bold),
-        )),
+            fontSize: 20,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Container(
         child: ListView(

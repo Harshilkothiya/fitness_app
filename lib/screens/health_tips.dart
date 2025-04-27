@@ -134,7 +134,6 @@ class _HealthTipsScreenState extends State<HealthTipsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNavBar(),
     );
   }
 
@@ -247,73 +246,6 @@ class _HealthTipsScreenState extends State<HealthTipsScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildBottomNavBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: Offset(0, -5),
-          ),
-        ],
-      ),
-      child: BottomNavigationBar(
-        currentIndex: 4, // Health Tips tab
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xFF6C63FF),
-        unselectedItemColor: Colors.grey[400],
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fitness_center_outlined),
-            label: 'Workout',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.restaurant_menu_outlined),
-            label: 'Diet',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.health_and_safety_outlined),
-            label: 'Tips',
-          ),
-        ],
-        onTap: (index) {
-          if (index == 4) return; // Already on Health Tips
-
-          String route = '/';
-          switch (index) {
-            case 0:
-              route = '/';
-              break;
-            case 1:
-              route = '/workout';
-              break;
-            case 2:
-              route = '/diet';
-              break;
-            case 3:
-              route = '/profile';
-              break;
-          }
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            route,
-            (route) => false, // Remove all previous routes
-          );
-        },
       ),
     );
   }

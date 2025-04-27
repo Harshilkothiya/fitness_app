@@ -8,14 +8,19 @@ class HIITScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFF4B45B2),
+        foregroundColor: Colors.white,
         title: Text(
-          'HIIT Workouts',
+          'HIIT',
           style: TextStyle(
             fontSize: 20,
-            fontFamily: 'QuickSand',
+            fontFamily: 'Poppins',
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: ListView(
         padding: const EdgeInsets.all(10),

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pbl_fitness_app/models/user_model.dart';
 import 'package:pbl_fitness_app/providers/user_provider.dart';
 import '../screens/home_screen.dart';
+import '../theme/app_theme.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -298,53 +299,48 @@ class _RegisterScreenState extends State<RegisterScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: hasError
-                  ? Color(0xFFFF8A80).withOpacity(0.5)
-                  : Colors.white.withOpacity(0.3),
-              width: hasError ? 1.5 : 1,
-            ),
+        TextField(
+          controller: controller,
+          onChanged: (text) => setState(() {}),
+          style: TextStyle(
+            color: Color(0xFF222B45),
+            fontSize: 16,
           ),
-          child: TextField(
-            controller: controller,
-            onChanged: (text) => setState(() {}),
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
+          decoration: AppTheme.textFieldDecoration(hintText, icon).copyWith(
+            errorText: null,
+            errorStyle: TextStyle(height: 0),
+            filled: true,
+            fillColor: Colors.white,
+            prefixIcon: Icon(
+              icon,
+              color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
+              size: 22,
             ),
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: TextStyle(
-                color: Colors.white.withOpacity(0.7),
-                fontSize: 16,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(
+                color: hasError ? Color(0xFFFFB4B4) : Color(0xFFE0E0E0),
+                width: 1.2,
               ),
-              errorStyle: TextStyle(height: 0),
-              border: InputBorder.none,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              prefixIcon: Icon(
-                icon,
-                color: hasError
-                    ? Color(0xFFFF8A80).withOpacity(0.7)
-                    : Colors.white.withOpacity(0.7),
-                size: 22,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(
+                color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
+                width: 1.5,
               ),
             ),
           ),
         ),
         if (hasError)
           Padding(
-            padding: EdgeInsets.only(left: 16, top: 8),
+            padding: EdgeInsets.only(left: 8, top: 6),
             child: Text(
-              errorText,
+              errorText!,
               style: TextStyle(
-                color: Color(0xFFFF8A80),
+                color: Color(0xFFD32F2F),
                 fontSize: 12,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
@@ -357,68 +353,62 @@ class _RegisterScreenState extends State<RegisterScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: hasError
-                  ? Color(0xFFFF8A80).withOpacity(0.5)
-                  : Colors.white.withOpacity(0.3),
-              width: hasError ? 1.5 : 1,
-            ),
+        TextField(
+          controller: _passwordController,
+          onChanged: (text) => setState(() {}),
+          style: TextStyle(
+            color: Color(0xFF222B45),
+            fontSize: 16,
           ),
-          child: TextField(
-            controller: _passwordController,
-            onChanged: (text) => setState(() {}),
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
+          obscureText: !_isPasswordVisible,
+          decoration:
+              AppTheme.textFieldDecoration("Password", Icons.lock).copyWith(
+            errorText: null,
+            errorStyle: TextStyle(height: 0),
+            filled: true,
+            fillColor: Colors.white,
+            prefixIcon: Icon(
+              Icons.lock,
+              color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
+              size: 22,
             ),
-            obscureText: !_isPasswordVisible,
-            decoration: InputDecoration(
-              hintText: "Password",
-              hintStyle: TextStyle(
-                color: Colors.white.withOpacity(0.7),
-                fontSize: 16,
-              ),
-              errorStyle: TextStyle(height: 0),
-              border: InputBorder.none,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              prefixIcon: Icon(
-                Icons.lock,
-                color: hasError
-                    ? Color(0xFFFF8A80).withOpacity(0.7)
-                    : Colors.white.withOpacity(0.7),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
                 size: 22,
               ),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-                  color: hasError
-                      ? Color(0xFFFF8A80).withOpacity(0.7)
-                      : Colors.white.withOpacity(0.7),
-                  size: 22,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _isPasswordVisible = !_isPasswordVisible;
-                  });
-                },
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(
+                color: hasError ? Color(0xFFFFB4B4) : Color(0xFFE0E0E0),
+                width: 1.2,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(
+                color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
+                width: 1.5,
               ),
             ),
           ),
         ),
         if (hasError)
           Padding(
-            padding: EdgeInsets.only(left: 16, top: 8),
+            padding: EdgeInsets.only(left: 8, top: 6),
             child: Text(
               _errorTextPassword!,
               style: TextStyle(
-                color: Color(0xFFFF8A80),
+                color: Color(0xFFD32F2F),
                 fontSize: 12,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),

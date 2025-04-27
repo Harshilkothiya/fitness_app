@@ -9,16 +9,20 @@ class VinyasaScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFF4B45B2),
+        foregroundColor: Colors.white,
         title: Center(
           child: Text(
             'Vinyasa Yoga',
             style: TextStyle(
               fontSize: 20,
-              fontFamily: 'QuickSand',
+              fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
         ),
+        elevation: 0,
       ),
       body: Container(
         child: ListView(

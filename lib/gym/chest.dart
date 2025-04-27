@@ -59,20 +59,22 @@ class ChestScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFF4B45B2),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black87),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           'Chest Exercises',
           style: TextStyle(
-            color: Colors.black87,
+            color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.w600,
+            fontFamily: 'Poppins',
           ),
         ),
+        centerTitle: true,
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(16),
@@ -83,7 +85,7 @@ class ChestScreen extends StatelessWidget {
             (e) => e.id == exercise['id'],
             orElse: () => gymData.first,
           );
-          
+
           return Padding(
             padding: EdgeInsets.only(bottom: 16),
             child: GestureDetector(
@@ -165,29 +167,32 @@ class ChestScreen extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(width: 8),
-                              ...exercise['equipment'].map<Widget>((equipment) => 
-                                Padding(
-                                  padding: EdgeInsets.only(right: 8),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 6,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[200],
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      equipment,
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
+                              ...exercise['equipment']
+                                  .map<Widget>(
+                                    (equipment) => Padding(
+                                      padding: EdgeInsets.only(right: 8),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                          vertical: 6,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[200],
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Text(
+                                          equipment,
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ).toList(),
+                                  )
+                                  .toList(),
                             ],
                           ),
                           SizedBox(height: 8),

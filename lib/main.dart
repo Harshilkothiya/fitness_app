@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pbl_fitness_app/widgets/dark_theme_widget.dart';
 import 'package:pbl_fitness_app/providers/user_provider.dart';
+import 'package:pbl_fitness_app/providers/progress_provider.dart';
 import 'package:pbl_fitness_app/theme/app_theme.dart';
 import 'authentication/login.dart';
 import 'screens/home_screen.dart';
@@ -9,6 +10,7 @@ import 'screens/workout_screen.dart';
 import 'screens/diet_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/health_tips.dart';
+import 'screens/home_screen.dart' show routeObserver;
 
 void main() {
   runApp(MyApp());
@@ -37,6 +39,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ProgressProvider()),
       ],
       child: ThemeBuilder(
         defaultBrightness: Brightness.light,
@@ -76,6 +79,7 @@ class _MyAppState extends State<MyApp> {
                 style: AppTheme.primaryButtonStyle,
               ),
             ),
+            navigatorObservers: [routeObserver],
             debugShowCheckedModeBanner: false,
             title: 'Flutter Fit',
             initialRoute: '/login',

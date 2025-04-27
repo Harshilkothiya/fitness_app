@@ -1,85 +1,84 @@
 import 'package:flutter/material.dart';
 
-class ModuleWidget extends StatefulWidget {
-  final Widget _widget;
-  final String _buttonText;
-  final String _imageUrl;
+class ModuleWidget extends StatelessWidget {
+  final Widget destination;
+  final String title;
+  final String imageUrl;
+  final String? subtitle;
+  final Widget? trailing;
 
-  ModuleWidget(this._widget, this._buttonText, this._imageUrl);
+  const ModuleWidget(
+    this.destination,
+    this.title,
+    this.imageUrl, {
+    this.subtitle,
+    this.trailing,
+    Key? key,
+  }) : super(key: key);
 
-  @override
-  _ModuleWidgetState createState() => _ModuleWidgetState();
-}
-
-class _ModuleWidgetState extends State<ModuleWidget> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            // color: Colors.grey,
-            border: Border.all(
-              color: Theme.of(context).colorScheme.primary,
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Stack(
-            alignment: Alignment.bottomLeft,
-            children: [
-              Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(14),
-                      topRight: Radius.circular(14),
-                      bottomLeft: Radius.circular(14),
-                      bottomRight: Radius.circular(14),
-                    ),
-                    // clipBehavior: Clip.hardEdge,
-                    child: Center(
-                      child: Image.asset(
-                        widget._imageUrl,
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
-                        height: 220,
-                      ),
-                    ),
-                  ),
-                  // Divider(thickness: 2,color: Colors.deepPurple,),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4),
-                child: Center(
-                  child: Text(
-                    widget._buttonText,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontFamily: 'Quicksand',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                    softWrap: true,
-                    // overflow: TextOverflow.fade,
-                  ),
-                ),
-              ),
-              // Image.asset('',B)
-              SizedBox(
-                height: 5,
-              ),
-            ],
-          ),
-        ),
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => widget._widget));
+            context,
+            MaterialPageRoute(builder: (context) => destination),
+          );
         },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 1.2,
+              child: Image.asset(
+                imageUrl,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (subtitle != null)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        subtitle!,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              fontStyle: FontStyle.italic,
+                            ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (trailing != null) ...[
+                      SizedBox(width: 8),
+                      trailing!,
+                    ]
+                  ],
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
