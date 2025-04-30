@@ -1,4 +1,4 @@
-package com.rohit.pbl_fitness_app;
+package com.harshil.fitness_app;
 
 import io.flutter.embedding.android.FlutterActivity;
 

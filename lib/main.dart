@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:pbl_fitness_app/widgets/dark_theme_widget.dart';
 import 'package:pbl_fitness_app/providers/user_provider.dart';
 import 'package:pbl_fitness_app/providers/progress_provider.dart';
@@ -12,7 +13,25 @@ import 'screens/profile_screen.dart';
 import 'screens/health_tips.dart';
 import 'screens/home_screen.dart' show routeObserver;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase with the proper options
+  try {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: 'AIzaSyD8XtUXa8Gg2qP8vT5VaKffmhut-WIG-yQ',
+        appId: '1:611293108364:android:de37481bb6e58b8e7ec3a9',
+        messagingSenderId: '611293108364',
+        projectId: 'fitness-app-ebe3c',
+        storageBucket: 'fitness-app-ebe3c.firebasestorage.app',
+      ),
+    );
+    print('Firebase initialized successfully');
+  } catch (e) {
+    print('Error initializing Firebase: $e');
+  }
+  
   runApp(MyApp());
 }
 

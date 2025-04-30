@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pbl_fitness_app/authentication/register.dart';
 import 'package:pbl_fitness_app/models/user_model.dart';
 import 'package:pbl_fitness_app/providers/user_provider.dart';
+import 'package:pbl_fitness_app/services/google_sign_in_service.dart';
 import '../screens/home_screen.dart';
 import '../theme/app_theme.dart';
 
@@ -89,6 +90,43 @@ class _LoginScreenState extends State<LoginScreen>
             );
           },
         ),
+      );
+    }
+  }
+
+  Future<void> _handleGoogleSignIn(BuildContext context) async {
+    try {
+      final googleSignInService = GoogleSignInService();
+      final userCredential = await googleSignInService.signInWithGoogle();
+      if (userCredential != null && userCredential.user != null) {
+        final user = UserModel(
+          name: userCredential.user!.displayName ?? 'User',
+          username: userCredential.user!.email?.split('@')[0] ?? 'user',
+          email: userCredential.user!.email ?? '',
+          phone: userCredential.user!.phoneNumber ?? '',
+          profileImage: userCredential.user!.photoURL ?? '',
+        );
+
+        Provider.of<UserProvider>(context, listen: false).setUser(user);
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                HomeScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error signing in with Google')),
       );
     }
   }
@@ -233,6 +271,45 @@ class _LoginScreenState extends State<LoginScreen>
                           ),
                         ),
                         SizedBox(height: 24.0),
+                        // Google Sign-In Button
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: ElevatedButton.icon(
+                            onPressed: () => _handleGoogleSignIn(context),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shadowColor: Colors.transparent,
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            icon: Image.asset(
+                              'assets/images/google_logo.png',
+                              height: 24,
+                              errorBuilder: (context, error, stackTrace) => Icon(Icons.login, color: Colors.red),
+                            ),
+                            label: Text(
+                              "Sign in with Google",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 24.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -293,12 +370,12 @@ class _LoginScreenState extends State<LoginScreen>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
-            controller: controller,
-            onChanged: (text) => setState(() {}),
-            style: TextStyle(
+          controller: controller,
+          onChanged: (text) => setState(() {}),
+          style: TextStyle(
             color: Color(0xFF222B45),
-              fontSize: 16,
-            ),
+            fontSize: 16,
+          ),
           decoration: AppTheme.textFieldDecoration(hintText, icon).copyWith(
             errorText: null,
             errorStyle: TextStyle(height: 0),
@@ -308,7 +385,7 @@ class _LoginScreenState extends State<LoginScreen>
               icon,
               color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
               size: 22,
-              ),
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(
@@ -347,35 +424,35 @@ class _LoginScreenState extends State<LoginScreen>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
-            controller: _passwordController,
-            onChanged: (text) => setState(() {}),
-            style: TextStyle(
+          controller: _passwordController,
+          onChanged: (text) => setState(() {}),
+          style: TextStyle(
             color: Color(0xFF222B45),
-              fontSize: 16,
-            ),
-            obscureText: !_isPasswordVisible,
+            fontSize: 16,
+          ),
+          obscureText: !_isPasswordVisible,
           decoration:
               AppTheme.textFieldDecoration("Password", Icons.lock).copyWith(
             errorText: null,
-              errorStyle: TextStyle(height: 0),
+            errorStyle: TextStyle(height: 0),
             filled: true,
             fillColor: Colors.white,
-              prefixIcon: Icon(
-                Icons.lock,
+            prefixIcon: Icon(
+              Icons.lock,
               color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
+              size: 22,
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
                 size: 22,
               ),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-                color: hasError ? Color(0xFFD32F2F) : Color(0xFF1976D2),
-                  size: 22,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _isPasswordVisible = !_isPasswordVisible;
-                  });
-                },
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),

@@ -7,31 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:611293108364:android:0982ecec3d2744957ec3a9",
-        "android_client_info": {
-          "package_name": "com.example.fitness_flutter"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD8XtUXa8Gg2qP8vT5VaKffmhut-WIG-yQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:611293108364:android:de37481bb6e58b8e7ec3a9",
         "android_client_info": {
           "package_name": "com.harshil.fitness_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "611293108364-91cl66ksmp19uc0okra5dsv9ku1femh6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.harshil.fitness_app",
+            "certificate_hash": "abc6eb01990f728d23ec25970491a4555066cf6e"
+          }
+        },
+        {
+          "client_id": "611293108364-53hdhnjrrpkhblpbqmogntofcnvqi31b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD8XtUXa8Gg2qP8vT5VaKffmhut-WIG-yQ"
@@ -39,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611293108364-53hdhnjrrpkhblpbqmogntofcnvqi31b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

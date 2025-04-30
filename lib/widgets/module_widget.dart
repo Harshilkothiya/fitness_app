@@ -33,12 +33,12 @@ class ModuleWidget extends StatelessWidget {
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+            children: [
             AspectRatio(
               aspectRatio: 1.2,
-              child: Image.asset(
+                      child: Image.asset(
                 imageUrl,
-                fit: BoxFit.cover,
+                        fit: BoxFit.cover,
                 width: double.infinity,
               ),
             ),
@@ -60,7 +60,7 @@ class ModuleWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Text(
+                  child: Text(
                         subtitle!,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -68,15 +68,15 @@ class ModuleWidget extends StatelessWidget {
                             ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                  ),
+                ),
                     if (trailing != null) ...[
                       SizedBox(width: 8),
                       trailing!,
                     ]
-                  ],
-                ),
-              ),
+            ],
+          ),
+        ),
           ],
         ),
       ),

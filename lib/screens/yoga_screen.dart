@@ -114,11 +114,11 @@ class YogaScreen extends StatelessWidget {
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w600,
             fontSize: 24,
-          ),
+            ),
         ),
         elevation: 0,
         centerTitle: true,
-      ),
+            ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         child: MasonryGridView.count(

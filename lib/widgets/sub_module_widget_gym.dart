@@ -86,73 +86,144 @@ class _SubModuleWidgetGymState extends State<SubModuleWidgetGym>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Card(
-          elevation: 8,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF4B45B2),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          widget.exercise.title,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'Poppins',
           ),
-          margin: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-          child: Container(
-            width: double.infinity,
-            height: 280,
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(28),
+        ),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              height: 220,
+              color: Color(0xFF4B45B2),
+              child: widget.exercise.imageUrl.isNotEmpty
+                  ? Image.network(
+                      widget.exercise.imageUrl,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.error_outline,
+                                  size: 48, color: Colors.white70),
+                              SizedBox(height: 8),
+                              Text('Failed to load image',
+                                  style: TextStyle(color: Colors.white70)),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Icon(Icons.fitness_center,
+                          size: 64, color: Colors.white70),
+                    ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(28)),
-                    child: widget.exercise.imageUrl.isNotEmpty
-                        ? Image.asset(
-                            widget.exercise.imageUrl,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Center(
-                                child: Icon(Icons.fitness_center,
-                                    size: 64, color: Colors.grey[400]),
-                              );
-                            },
-                          )
-                        : Center(
-                            child: Icon(Icons.fitness_center,
-                                size: 64, color: Colors.grey[400]),
-                          ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.exercise.title,
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF4B45B2),
+                    ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(bottom: Radius.circular(28)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          widget.exercise.title,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.blueGrey[700],
-                          ),
-                          overflow: TextOverflow.ellipsis,
+                  SizedBox(height: 12),
+                  if (widget.exercise.difficulty != null &&
+                      widget.exercise.difficulty!.isNotEmpty)
+                    Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.fitness_center,
+                                color: Colors.orange, size: 24),
+                            SizedBox(width: 10),
+                            Text(
+                              'Difficulty',
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.grey[700]),
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              widget.exercise.difficulty!,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.orange[800]),
+                            ),
+                          ],
                         ),
                       ),
-                      Icon(Icons.arrow_forward_ios, color: Colors.blue[700]),
-                    ],
+                    ),
+                  SizedBox(height: 18),
+                  Text(
+                    'Instructions',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[800],
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 10),
+                  if (widget.exercise.description != null &&
+                      widget.exercise.description!.isNotEmpty)
+                    ...widget.exercise.description!.map((step) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('• ',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Color(0xFF4B45B2))),
+                              Expanded(
+                                child: Text(
+                                  step,
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.grey[700]),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+                  if (widget.exercise.description == null ||
+                      widget.exercise.description!.isEmpty)
+                    Text('No instructions available.',
+                        style: TextStyle(color: Colors.grey)),
+                  SizedBox(height: 24),
+                  // Optionally add more details (equipment, muscle, etc.)
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
